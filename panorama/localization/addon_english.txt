@@ -144,7 +144,7 @@
 	"quest_completed_msg"	"<font color='#FF8F0D'>COMPLETE THE QUEST:</font> {s:quest}"
 
 	// 商城
-	"avalon_store_name"			"STORE"
+	"avalon_store_name"			"DONATE"
 	"avalon_store_inventory"	"INVENTORY"
 	"avalon_store_inventory_item_remaining"	"AMOUNT:"
 	"avalon_store_game_points"				"YIN-YANG ORB"
@@ -158,6 +158,7 @@
 	"avalon_store_sort"			"SORT"
 	"avalon_store_please_input_your_redeem_code"	"PLEASE INPUT YOUR REDEEM CODE"
 	"avalon_store_goback_button"	"BACK"
+	"avalon_store_donate"		"DONATE"
 
 	"avalon_store_item_label_discount"	"DISCOUNT {d:amount}%"
 	"avalon_store_item_label_only_buy_one"	"ONLY CAN BUY ONE"

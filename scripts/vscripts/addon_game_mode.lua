@@ -373,10 +373,6 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
 
   	elseif newState == DOTA_GAMERULES_STATE_PRE_GAME then
 		self:GameSetHeroOriginPosition()
-		if GameRules:IsCheatMode() and IsInToolsMode() == false then
-			local base = Entities:FindByName(nil, "dota_goodguys_fort")
-			base:ForceKill(false)
-		end
   	elseif newState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
   		self:THTD_InitCreepMsgEffect(PlayerResource:GetPlayerCount()*40)
   		SpawnSystem:InitSpawn()
@@ -388,6 +384,13 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
   		GameRules:GetGameModeEntity():SetContextThink(DoUniqueString("thtd_creep_count"), 
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
+
+				if GameRules:IsCheatMode() and IsInToolsMode() == false then
+					local base = Entities:FindByName(nil, "dota_goodguys_fort")
+					base:ForceKill(false)
+					return nil
+				end
+
 				if SpawnSystem:GetWave() <= 51 then
 					local entities = Entities:FindAllByClassname("npc_dota_creature")
 					local count = 0

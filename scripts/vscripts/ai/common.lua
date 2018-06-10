@@ -653,7 +653,99 @@ function CDOTA_BaseNPC:THTD_seiga_thtd_ai()
 	end
 end
 
-function THTDSystem:CastAbility( unit,ability)
+function CDOTA_BaseNPC:THTD_keine_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_keine_01")
+	local ability2 = self:FindAbilityByName("thtd_keine_02")
+	local ability3 = self:FindAbilityByName("thtd_keine_03")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+	local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self,ability1:GetCastRange())
+
+	if unit~=nil and unit:IsNull()==false and target~=nil and target:IsNull()==false and ability1:GetLevel()>0 and 
+	self.thtd_keine_change == 1 and target:THTD_IsTower() and ability1:IsCooldownReady() then
+		self:CastAbilityOnTarget(target,ability1,self:GetPlayerOwnerID())
+	elseif unit~=nil and unit:IsNull()==false and ability3:GetLevel()>0 and ability3:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability3)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		if ability3:GetLevel()>0 then
+			if ability3:IsCooldownReady() == false then
+				THTDSystem:CastAbility(self,ability2)
+			end
+		else
+			THTDSystem:CastAbility(self,ability2)
+		end
+	elseif self:IsAttacking() == false then
+		if (unit==nil or unit:IsNull()) and self.thtd_keine_change == 2 and ability2:IsCooldownReady() then
+			THTDSystem:CastAbility(self,ability2)
+		end
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_medicine_thtd_ai()
+	local ability2 = self:FindAbilityByName("thtd_medicine_02")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability2)
+	else
+		local target = THTDSystem:FindRadiusOneUnitHasNoModifier(self,1000,"modifier_medicine_01_slow")
+		if target~=nil and target:IsNull()==false then
+			self:MoveToTargetToAttack(target)
+		else
+			self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+		end
+	end
+end
+
+function CDOTA_BaseNPC:THTD_luna_thtd_ai()
+	local ability2 = self:FindAbilityByName("thtd_luna_02")
+	local unit = nil
+	local entities = THTD_FindUnitsInner(self)
+	for k,v in pairs(entities) do
+		local forward = (v:GetAbsOrigin() - self:GetAbsOrigin()):Normalized()
+		if THTDSystem:FindRadiusUnitCountInLine( self, 300, v:GetOrigin()+forward*700) > 3 then
+			unit = v
+			break
+		end
+	end
+
+	if unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		local forward = (unit:GetAbsOrigin() - self:GetAbsOrigin()):Normalized()
+		self:CastAbilityOnPosition(unit:GetOrigin(),ability2,self:GetPlayerOwnerID())
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_sunny_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_sunny_01")
+	local ability2 = self:FindAbilityByName("thtd_sunny_02")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability1)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability2)
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_star_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_star_01")
+	local ability2 = self:FindAbilityByName("thtd_star_02")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability1)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability2)
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function THTDSystem:CastAbility(unit,ability)
 	if ability:IsUnitTarget() then
 		local teams = DOTA_UNIT_TARGET_TEAM_ENEMY
 	    local types =  DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
@@ -711,6 +803,20 @@ function THTDSystem:FindRadiusOneUnit( entity, range)
 	if #enemies > 0 then
 		local index = RandomInt( 1, #enemies )
 		return enemies[index]
+	else
+		return nil
+	end
+end
+
+function THTDSystem:FindRadiusOneUnitHasNoModifier(entity,range,modifierName)
+	local enemies = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range)
+	if #enemies > 0 then
+		for k,v in pairs(enemies) do
+			if v:HasModifier(modifierName) ~= true then
+				return v
+			end
+		end
+		return nil
 	else
 		return nil
 	end
