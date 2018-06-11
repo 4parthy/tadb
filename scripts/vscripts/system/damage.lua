@@ -201,6 +201,10 @@ function ReturnAfterTaxDamage(DamageTable)
 
     if DamageTable.damage_type == DAMAGE_TYPE_MAGICAL then
         local magicArmor = target:GetMagicalArmorValue() * 100
+
+        if unit:HasModifier("modifier_patchouli_03_buff") then
+            DamageTable.damage = DamageTable.damage * 1.3
+        end
         
         if unit.thtd_magical_damage_outgoing ~= nil and unit.thtd_magical_damage_outgoing ~= 0 then
             DamageTable.damage = DamageTable.damage * (1 + unit.thtd_magical_damage_outgoing/100)

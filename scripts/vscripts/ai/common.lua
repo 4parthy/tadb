@@ -425,7 +425,7 @@ function CDOTA_BaseNPC:THTD_eirin_thtd_ai()
 
 	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() and self:GetMana() >= ability:GetManaCost(ability:GetLevel()) then
 		THTDSystem:CastAbility(self,ability)
-	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and self:GetMana() >= ability:GetManaCost(ability:GetLevel()) and self.thtd_eirin_03_position~=nil then
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and self:GetMana() >= ability2:GetManaCost(ability2:GetLevel()) and self.thtd_eirin_03_position~=nil then
 		self:CastAbilityOnPosition(self.thtd_eirin_03_position,ability2,self:GetPlayerOwnerID())
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
@@ -700,7 +700,7 @@ end
 function CDOTA_BaseNPC:THTD_luna_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_luna_02")
 	local unit = nil
-	local entities = THTD_FindUnitsInner(self)
+	local entities = THTD_FindUnitsInRadius(self, self:GetOrigin(), ability2:GetCastRange())
 	for k,v in pairs(entities) do
 		local forward = (v:GetAbsOrigin() - self:GetAbsOrigin()):Normalized()
 		if THTDSystem:FindRadiusUnitCountInLine( self, 300, v:GetOrigin()+forward*700) > 3 then

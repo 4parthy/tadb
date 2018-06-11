@@ -1536,27 +1536,27 @@ thtd_ability_table =
 	},
 
 	["luna"] = {
-		[1] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0,["thtd_luna_03"] = 0},
-		[2] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0,["thtd_luna_03"] = 0},
-		[3] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1,["thtd_luna_03"] = 0},
-		[4] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1,["thtd_luna_03"] = 0},
-		[5] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1,["thtd_luna_03"] = 0},
+		[1] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0},
+		[2] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0},
+		[3] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
+		[4] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
+		[5] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
 	},
 
 	["sunny"] = {
-		[1] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 0,["thtd_sunny_03"] = 0},
-		[2] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 0,["thtd_sunny_03"] = 0},
-		[3] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1,["thtd_sunny_03"] = 0},
-		[4] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1,["thtd_sunny_03"] = 0},
-		[5] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1,["thtd_sunny_03"] = 0},
+		[1] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 0},
+		[2] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 0},
+		[3] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1},
+		[4] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1},
+		[5] = {["thtd_sunny_01"] = 1,["thtd_sunny_02"] = 1},
 	},
 
 	["star"] = {
-		[1] = {["thtd_star_01"] = 1,["thtd_star_02"] = 0,["thtd_star_03"] = 0},
-		[2] = {["thtd_star_01"] = 2,["thtd_star_02"] = 0,["thtd_star_03"] = 0},
-		[3] = {["thtd_star_01"] = 3,["thtd_star_02"] = 1,["thtd_star_03"] = 0},
-		[4] = {["thtd_star_01"] = 4,["thtd_star_02"] = 1,["thtd_star_03"] = 0},
-		[5] = {["thtd_star_01"] = 5,["thtd_star_02"] = 1,["thtd_star_03"] = 0},
+		[1] = {["thtd_star_01"] = 1,["thtd_star_02"] = 0},
+		[2] = {["thtd_star_01"] = 2,["thtd_star_02"] = 0},
+		[3] = {["thtd_star_01"] = 3,["thtd_star_02"] = 1},
+		[4] = {["thtd_star_01"] = 4,["thtd_star_02"] = 1},
+		[5] = {["thtd_star_01"] = 5,["thtd_star_02"] = 1},
 	},
 }		
 

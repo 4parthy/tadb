@@ -156,8 +156,8 @@ function Yuuka03SpellStart(keys)
 
 		illusion.effect = effectIndex
 
-		illusion:SetBaseDamageMax(caster:GetAverageTrueAttackDamage(true))
-		illusion:SetBaseDamageMin(caster:GetAverageTrueAttackDamage(true))
+		illusion:SetBaseDamageMax(caster:GetAverageTrueAttackDamage(caster))
+		illusion:SetBaseDamageMin(caster:GetAverageTrueAttackDamage(caster))
 
 		illusion:SetContextThink(DoUniqueString("thtd_yuuka_03_illusion"), 
 			function()

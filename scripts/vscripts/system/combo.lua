@@ -785,6 +785,85 @@ function CDOTA_BaseNPC:THTD_keine_thtd_combo(combo)
 	return comboVoiceTable
 end
 
+-- function CDOTA_BaseNPC:THTD_sunny_thtd_combo(combo)
+-- 	local comboVoiceTable = {}
+
+-- 	if HasCombo(combo,"luna_star_sunny") then
+-- 		local hero = self:GetOwner()
+-- 		local fairyList = GetHeroFairyList(hero)
+
+-- 		local sunny = nil
+-- 		local luna = nil
+-- 		local star = nil
+
+-- 		for i=1,math.floor(#fairyList/3) do
+-- 			for k,v in pairs(fairyList) do
+-- 				if v:GetUnitName() == "sunny" then
+-- 					sunny = v
+-- 					table.remove(fairyList,k)
+-- 				elseif v:GetUnitName() == "luna" then
+-- 					luna = v
+-- 					table.remove(fairyList,k)
+-- 				elseif v:GetUnitName() == "star" then
+-- 					star = v
+-- 					table.remove(fairyList,k)
+-- 				end
+-- 			end
+
+-- 			if sunny~=nil and luna~=nil and star~=nil then
+-- 				local effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, luna, 5, "attach_hitloc", Vector(0,0,0), true)
+
+-- 				sunny.thtd_sunny_combo_effect_index = effectIndex
+
+-- 				effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, luna, 5, "attach_hitloc", Vector(0,0,0), true)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, star, 5, "attach_hitloc", Vector(0,0,0), true)
+
+-- 				luna.thtd_luna_combo_effect_index = effectIndex
+
+-- 				effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, star, 5, "attach_hitloc", Vector(0,0,0), true)
+-- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
+
+-- 				star.thtd_star_combo_effect_index = effectIndex
+-- 			end
+-- 		end
+		
+-- 	else
+-- 		local hero = self:GetOwner()
+-- 		local fairyList = GetHeroFairyList(hero)
+
+-- 		local sunny = nil
+-- 		local luna = nil
+-- 		local star = nil
+
+-- 		for i=1,math.floor(#fairyList/3) do
+-- 			for k,v in pairs(fairyList) do
+-- 				if v:GetUnitName() == "sunny" then
+-- 					sunny = v
+-- 					table.remove(fairyList,k)
+-- 				elseif v:GetUnitName() == "luna" then
+-- 					luna = v
+-- 					table.remove(fairyList,k)
+-- 				elseif v:GetUnitName() == "star" then
+-- 					star = v
+-- 					table.remove(fairyList,k)
+-- 				end
+-- 			end
+
+-- 			if sunny~=nil and luna~=nil and star~=nil then
+-- 				ParticleManager:DestroyParticleSystem(sunny.thtd_sunny_combo_effect_index,false)
+-- 				ParticleManager:DestroyParticleSystem(luna.thtd_luna_combo_effect_index,false)
+-- 				ParticleManager:DestroyParticleSystem(star.thtd_star_combo_effect_index,false)
+-- 			end
+-- 		end
+-- 	end
+-- 	combo = {}
+-- 	return comboVoiceTable
+-- end
+
 function HasCombo(combo,name)
 	for k,v in pairs(combo) do
 		if k == name then

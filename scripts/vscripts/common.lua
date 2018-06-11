@@ -3,6 +3,17 @@ FALSE = 0
 
 THTD_Custom_Hit_Block = {}
 
+function GetHeroFairyList(hero)
+    local fairyList = {}
+    local count = 0
+    for k,v in pairs(hero.thtd_hero_tower_list) do
+        if v:GetUnitName() == "sunny" or v:GetUnitName() == "star" or v:GetUnitName() == "luna" then
+            table.insert(fairyList,v)
+        end
+    end
+    return fairyList
+end
+
 function GetTempleOfGodBuffedTowerCount(targets)
     local count = 1
     for k,v in pairs(targets) do
