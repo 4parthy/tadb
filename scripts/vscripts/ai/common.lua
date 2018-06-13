@@ -213,6 +213,17 @@ function CDOTA_BaseNPC:THTD_youmu_thtd_ai()
 	end
 end
 
+function CDOTA_BaseNPC:THTD_utsuho_thtd_ai()
+	local ability = self:FindAbilityByName("thtd_utsuho_03")
+	local point = THTDSystem:FindUtsuhoPerfectPoint(self, ability:GetCastRange())
+
+	if ability:GetLevel()>0 and ability:IsCooldownReady() and self:IsChanneling() == false and point ~= nil then
+		self:CastAbilityOnPosition(point, ability, self:GetPlayerOwnerID())
+	elseif self:IsAttacking() == false and self:IsChanneling() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
 function CDOTA_BaseNPC:THTD_rin_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_rin_01")
 	local unit = THTDSystem:FindRadiusOneUnit(self,ability:GetCastRange())
