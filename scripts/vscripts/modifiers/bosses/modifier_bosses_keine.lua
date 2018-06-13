@@ -32,6 +32,7 @@ function public:OnCreated(kv)
 		caster:SetContextThink(DoUniqueString("thtd_bosses_keine_buff"), 
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
+				if caster==nil or caster:IsNull() or caster:IsAlive()==false then return nil end
 				if caster:GetHealth() < caster:GetMaxHealth()*0.7 then
 					caster:SetContextThink(DoUniqueString("thtd_bosses_keine_back_buff"), 
 						function()

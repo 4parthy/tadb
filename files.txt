@@ -1192,8 +1192,17 @@ models/new_touhou_model/remilia/gungnir_ed516360.vagrp_c
 models/new_touhou_model/remilia/remilia.vmdl_c
 models/new_touhou_model/remilia/remilia.vmesh_c
 models/new_touhou_model/remilia/remilia_ccce6eed.vagrp_c
+models/new_touhou_model/sakuya/0d9644b6/attack1.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/attack2.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/cast1.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/cast1_2.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/cast2.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/cast3.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/cast4.vanim_c
+models/new_touhou_model/sakuya/0d9644b6/idle.vanim_c
 models/new_touhou_model/sakuya/sakuya.vmdl_c
 models/new_touhou_model/sakuya/sakuya.vmesh_c
+models/new_touhou_model/sakuya/sakuya_0d9644b6.vagrp_c
 models/new_touhou_model/tenshi/3e07bb2d/tenshi.vanim_c
 models/new_touhou_model/tenshi/3e07bb2d/tenshi_attack1.vanim_c
 models/new_touhou_model/tenshi/3e07bb2d/tenshi_attack2.vanim_c

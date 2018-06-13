@@ -33,21 +33,26 @@ function OnMedicine01AttackLanded(keys)
 			end, 
 		0.2)
 
-		local current_next_move_point = target.next_move_point
-		local current_next_move_forward = target.next_move_forward
 
-		target.next_move_point = current_next_move_point + RandomVector(500)
+		if target.thtd_medicine_move_lock ~= true then
+			target.thtd_medicine_move_lock = true
+			local current_next_move_point = target.next_move_point
+			local current_next_move_forward = target.next_move_forward
 
-		target:SetContextThink(DoUniqueString("modifier_medicine_01_debuff"), 
-			function()
-				if GameRules:IsGamePaused() then return 0.03 end
+			target.next_move_point = current_next_move_point + RandomVector(500)
 
-				target.next_move_point = current_next_move_point
-				target.next_move_forward = current_next_move_forward
+			target:SetContextThink(DoUniqueString("modifier_medicine_01_debuff"), 
+				function()
+					if GameRules:IsGamePaused() then return 0.03 end
 
-				return nil
-			end, 
-		1.0)
+					target.next_move_point = current_next_move_point
+					target.next_move_forward = current_next_move_forward
+					target.thtd_medicine_move_lock = false
+
+					return nil
+				end, 
+			1.0)
+		end
 	else
 		modifier:SetDuration(10.0,false)
 	end

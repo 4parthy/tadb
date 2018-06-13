@@ -162,24 +162,41 @@ end
 
 function CDOTA_BaseNPC:THTD_reisen_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_reisen_03")
-	local unit = THTDSystem:FindRadiusOneUnit(self,ability:GetCastRange())
 
-	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() and self:GetMana() >= ability:GetManaCost(ability:GetLevel()) then
-		THTDSystem:CastAbility(self,ability)
+	local target = THTDSystem:FindDangerousUnitCondition(self, self:GetAttackRange(),
+		function(targetunit) return targetunit.thtd_is_feared_by_reisen_01~=true end)
+	local curTarget = self:GetAttackTarget()
+
+	if target~=nil and target:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() and self:GetMana() >= ability:GetManaCost(ability:GetLevel()) and GetDistance(self, target) <= 750 then
+		self:CastAbilityOnTarget(target, ability, self:GetPlayerOwnerID())
+	elseif target~=nil and target:IsNull()==false then
+		if curTarget==nil or curTarget:IsNull()==true or curTarget.thtd_is_feared_by_reisen_01==true then
+			self:SetForceAttackTarget(target)
+		else
+			self:SetForceAttackTarget(nil)
+		end
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
-	end
+	end	
 end
 
 function CDOTA_BaseNPC:THTD_yuyuko_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_yuyuko_01")
 	local ability2 = self:FindAbilityByName("thtd_yuyuko_03")
+
 	local unit = THTDSystem:FindRadiusOneUnit(self,ability1:GetCastRange())
 
-	if unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and self:IsChanneling() == false then
-		THTDSystem:CastAbility(self,ability2)
+	local target = THTDSystem:FindDangerousUnitCondition(self, ability2:GetCastRange(),  
+		function (targetunit) return targetunit:GetHealthPercent() <= 30 end)
+
+	if self:IsChanneling() and target==nil then
+		self:Stop()
+	end
+
+	if target~=nil and target:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and self:IsChanneling() == false then
+		self:CastAbilityOnPosition(target:GetOrigin(), ability2, self:GetPlayerOwnerID())
 	elseif unit~=nil and unit:IsNull()==false and ability1:IsCooldownReady() and self:GetMana() >= ability1:GetManaCost(ability1:GetLevel()) and self:IsChanneling() == false then
-		THTDSystem:CastAbility(self,ability1)
+		ability1:CastAbility()
 	elseif self:IsAttacking() == false and self:IsChanneling() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
 	end
@@ -207,15 +224,40 @@ function CDOTA_BaseNPC:THTD_rin_thtd_ai()
 	end
 end
 
-function CDOTA_BaseNPC:THTD_utsuho_thtd_ai()
-	local ability = self:FindAbilityByName("thtd_utsuho_03")
-	local unit = THTDSystem:FindRadiusOneUnit(self,ability:GetCastRange())
-
-	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() and self:IsChanneling() == false then
-		THTDSystem:CastAbility(self,ability)
-	elseif self:IsAttacking() == false and self:IsChanneling() == false then
-		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+function THTDSystem:FindUtsuhoPerfectPoint(entity, range)
+	local unit,dist = THTDSystem:FindDangerousUnitCondition(entity, range)
+	if unit == nil or unit:IsNull()==true then
+		return nil
 	end
+	if dist <= 400 then
+		local Point = unit:GetOrigin() - unit:GetForwardVector() * 280
+		return Point
+	end
+	local targets1 = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range)
+	local targets2 = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range + 300)
+	local maxSumEffect = 0
+	local target = nil
+	for k1,target1 in pairs(targets1) do
+		local sumEffect = 0
+		local count = 0
+		for k2,target2 in pairs(targets2) do
+			if target2~=nil and target2:IsNull()==false then
+				local dist = GetDistance(target1, target2)
+				if dist < 400 then
+					sumEffect = sumEffect + dist
+					count = count + 1
+				end
+			end
+		end
+		if sumEffect > maxSumEffect and count > 5 then
+			maxSumEffect = sumEffect
+			target = target1
+		end
+	end
+	if maxSumEffect > 999 then
+		return target:GetOrigin()
+	end
+	return nil
 end
 
 function CDOTA_BaseNPC:THTD_reimu_thtd_ai()
@@ -291,17 +333,34 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	end
 end
 
+require( "../abilities/abilitysakuya")
+
+function THTDSystem:NeedSakuya(target)
+	if target:THTD_IsTower() and target:HasModifier("modifier_sakuya_02_buff") == false then
+		for i=2,5 do
+			local ability = target:GetAbilityByIndex(i)
+			if ability~=nil and IsInSakuya02BlackList(ability) == false and 
+				(ability:GetCooldownTimeRemaining() > 1 or (ability:GetManaCost(ability:GetLevel()) > 0 and target:GetManaPercent() < 50)) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 function CDOTA_BaseNPC:THTD_sakuya_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_sakuya_01")
 	local ability2 = self:FindAbilityByName("thtd_sakuya_02")
 	local ability3 = self:FindAbilityByName("thtd_sakuya_03")
-	local unit = THTDSystem:FindRadiusOneUnit(self,ability1:GetCastRange())
+	local unit, dist = THTDSystem:FindDangerousUnitCondition(self,ability1:GetCastRange())
 	local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self,ability2:GetCastRange())
 
-	if unit~=nil and unit:IsNull()==false and target~=nil and target:IsNull()==false and ability2:GetLevel()>0 and target:THTD_IsTower() and ability2:IsCooldownReady() then
+	if target~=nil and target:IsNull()==false and ability2:GetLevel()>0 and target:THTD_IsTower() and ability2:IsCooldownReady() and THTDSystem:NeedSakuya(target)==true then
 		self:CastAbilityOnTarget(target,ability2,self:GetPlayerOwnerID())
-	elseif unit~=nil and unit:IsNull()==false and ability3:GetLevel()>0 and ability3:IsCooldownReady() and THTDSystem:FindRadiusUnitCount(self,1000) > 5 then
-		THTDSystem:CastAbility(self,ability3)
+	elseif unit~=nil and unit:IsNull()==false and ability3:GetLevel()>0 and ability3:IsCooldownReady() and 
+		(THTDSystem:FindRadiusUnitCount(self, 800) > 4 or dist <= 400 ) 
+	then
+		self:CastAbilityNoTarget(ability3, self:GetPlayerOwnerID())
 	elseif unit~=nil and unit:IsNull()==false and ability1:IsCooldownReady() and self:GetMana() >= ability1:GetManaCost(ability1:GetLevel()) then
 		THTDSystem:CastAbility(self,ability1)
 	elseif self:IsAttacking() == false then
@@ -361,8 +420,8 @@ function CDOTA_BaseNPC:THTD_yukari_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_yukari_02")
 	local ability4 = self:FindAbilityByName("thtd_yukari_04")
 
-	local unit = THTDSystem:FindRadiusOneUnit(self,ability1:GetCastRange())
-	local target = THTDSystem:FindRadiusLonelyOneUnit(self,ability1:GetCastRange(),2)
+	local target,dist = THTDSystem:FindDangerousUnitCondition(self, ability1:GetCastRange(),
+		function(targetunit) return (targetunit.thtd_yukari_01_hidden_count == nil or targetunit.thtd_yukari_01_hidden_count < 2) end)
 
 	if self.thtd_yukari_01_hidden_table == nil then
 		self.thtd_yukari_01_hidden_table = {}
@@ -372,20 +431,16 @@ function CDOTA_BaseNPC:THTD_yukari_thtd_ai()
 		self.thtd_yukari_01_stock = 3
 	end
 
-	if 	target~=nil and target:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() and 
-		self:GetMana() >= ability1:GetManaCost(ability1:GetLevel()) and #self.thtd_yukari_01_hidden_table < self.thtd_yukari_01_stock and 
-		(target.thtd_yukari_01_hidden_count == nil or target.thtd_yukari_01_hidden_count < 2)
+	if ability4:GetLevel()>0 and ability4:IsCooldownReady() and 
+		(THTDSystem:FindRadiusUnitCount(self,1000) > 5 or THTDSystem:FindRadiusUnitCount(self,400) > 0) 
 	then
-		THTDSystem:CastAbilityToUnit( self,ability1,target)
-	elseif unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() and 
-		self:GetMana() >= ability1:GetManaCost(ability1:GetLevel()) and #self.thtd_yukari_01_hidden_table < self.thtd_yukari_01_stock and 
-		(unit.thtd_yukari_01_hidden_count == nil or unit.thtd_yukari_01_hidden_count < 2)
+		THTDSystem:CastAbility(self, ability4)
+	elseif target~=nil and target:IsNull()==false and dist <= 750 and ability1:GetLevel()>0 and ability1:IsCooldownReady() and 
+		self:GetMana() >= ability1:GetManaCost(ability1:GetLevel()) and #self.thtd_yukari_01_hidden_table < self.thtd_yukari_01_stock 
 	then
-		THTDSystem:CastAbilityToUnit( self,ability1,unit)
-	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and #self.thtd_yukari_01_hidden_table > 0 then
+		THTDSystem:CastAbilityToUnit(self, ability1, target)
+	elseif ability2:GetLevel()>0 and ability2:IsCooldownReady() and #self.thtd_yukari_01_hidden_table > 0 then
 		THTDSystem:CastAbility(self,ability2)
-	elseif unit~=nil and unit:IsNull()==false and ability4:GetLevel()>0 and ability4:IsCooldownReady() and THTDSystem:FindRadiusUnitCount(self,1000) > 5 then
-		THTDSystem:CastAbility(self,ability4)
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
 	end
@@ -721,11 +776,12 @@ function CDOTA_BaseNPC:THTD_sunny_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_sunny_01")
 	local ability2 = self:FindAbilityByName("thtd_sunny_02")
 	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+	local point = THTDSystem:FindRadiusOnePointPerfectAOE(self, ability2:GetCastRange(), 300)
 
 	if unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() then
 		THTDSystem:CastAbility(self,ability1)
-	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
-		THTDSystem:CastAbility(self,ability2)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and point~=nil then
+		self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
 	end
@@ -928,4 +984,95 @@ function THTDSystem:FindFriendlyHighestStarRadiusOneUnit( entity, range)
 	else
 		return nil
 	end
+end
+
+
+function THTDSystem:FindRadiusOnePointLastCast( entity, range)
+	local point = entity.thtd_last_cast_point
+	if point == nil or GetDistanceBetweenTwoVec2D(point, entity:GetOrigin()) > range then
+		local unit = THTDSystem:FindRadiusOneUnit(entity, range)
+		if unit~=nil and unit:IsNull()==false then
+			point = unit:GetOrigin()
+		end
+	end
+	return point
+end
+
+function THTDSystem:FindRadiusOnePointPerfectAOE( entity, range, AOErange)
+	local targets1 = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range)
+	local targets2 = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range + AOErange)
+	local target = nil
+	local maxCount = 0
+	for k1,target1 in pairs(targets1) do
+		local count = 0
+		for k2,target2 in pairs(targets2) do
+			if target2~=nil and target2:IsNull()==false then
+				if GetDistance(target1, target2) < AOErange then
+					count = count + 1
+				end
+			end
+		end
+		if count > maxCount then
+			target = target1
+			maxCount = count
+		end
+	end
+	if target~=nil then
+		return target:GetOrigin()
+	end
+	return nil
+end
+
+function THTDSystem:FindDangerousUnitCondition( entity, range, ...)
+	local enemies = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range)
+	local condition = ...
+	if condition == nil then
+		condition = 
+		function(...)
+			return true
+		end
+	end
+	local target = nil
+	local mindist = nil
+	if #enemies > 0 then
+		for k,v in pairs(enemies) do
+			if v~=nil and v:IsNull()==false and condition(v) and v.thtd_ability_reisen_01_fearing ~= true then
+				local dist = GetDistance(entity, v)
+				if target == nil or dist < mindist then
+					target = v
+					mindist = dist
+				end
+			end
+		end
+	end
+	return target,mindist
+end
+
+function CDOTA_BaseNPC:THTD_mugiyousei_thtd_ai()
+	local target = self:GetAttackTarget()
+
+	local min_thtd_poison_buff = 0
+	if target~=nil then
+		min_thtd_poison_buff = target.thtd_poison_buff
+	end
+	local unit = target
+
+	local enemies = THTD_FindUnitsInRadius(self, self:GetOrigin(), self:GetAttackRange())
+	if #enemies > 0 then
+		for k,v in pairs(enemies) do
+			if v~=nil and v:IsNull()==false and v.thtd_poison_buff < min_thtd_poison_buff then
+				unit = v
+				min_thtd_poison_buff = v.thtd_poison_buff
+			end
+		end
+	end
+
+	if unit~=nil and unit:IsNull()==false and unit~=target then
+		self:SetForceAttackTarget(unit)
+	else
+		self:SetForceAttackTarget(nil)
+	end
+	if self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end	
 end

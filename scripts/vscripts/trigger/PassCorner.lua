@@ -5,6 +5,7 @@ function OnPassTheCorner(data)
 	if findNum == nil and target:GetUnitName() ~= "yukari_train" then return end
 	if target == nil or target:IsNull() then return end
 	if target.thtd_ability_reisen_01_fearing == true then return end
+	if target.thtd_medicine_move_lock == true then return end
 
 	local caller = data.caller
 	local vecLocation = thisEntity:GetOrigin()

@@ -785,84 +785,80 @@ function CDOTA_BaseNPC:THTD_keine_thtd_combo(combo)
 	return comboVoiceTable
 end
 
--- function CDOTA_BaseNPC:THTD_sunny_thtd_combo(combo)
--- 	local comboVoiceTable = {}
+function CDOTA_BaseNPC:THTD_sunny_thtd_combo(combo)
+	local comboVoiceTable = {}
 
--- 	if HasCombo(combo,"luna_star_sunny") then
--- 		local hero = self:GetOwner()
--- 		local fairyList = GetHeroFairyList(hero)
+	if HasCombo(combo,"luna_star_sunny") and self.thtd_combo_fairyList == nil then
+		self.thtd_combo_fairyList = {}
+		local hero = self:GetOwner()
 
--- 		local sunny = nil
--- 		local luna = nil
--- 		local star = nil
+		local sunny = nil
+		local luna = nil
+		local star = nil
 
--- 		for i=1,math.floor(#fairyList/3) do
--- 			for k,v in pairs(fairyList) do
--- 				if v:GetUnitName() == "sunny" then
--- 					sunny = v
--- 					table.remove(fairyList,k)
--- 				elseif v:GetUnitName() == "luna" then
--- 					luna = v
--- 					table.remove(fairyList,k)
--- 				elseif v:GetUnitName() == "star" then
--- 					star = v
--- 					table.remove(fairyList,k)
--- 				end
--- 			end
+		for k,v in pairs(hero.thtd_hero_tower_list) do
+			if v:GetUnitName() == "sunny" and v.thtd_fairy_combo_islink~=true then
+				sunny = v
+			elseif v:GetUnitName() == "luna" and v.thtd_fairy_combo_islink~=true then
+				luna = v
+			elseif v:GetUnitName() == "star" and v.thtd_fairy_combo_islink~=true then
+				star = v
+			end
+		end
 
--- 			if sunny~=nil and luna~=nil and star~=nil then
--- 				local effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, luna, 5, "attach_hitloc", Vector(0,0,0), true)
+		if sunny~=nil and luna~=nil and star~=nil then
 
--- 				sunny.thtd_sunny_combo_effect_index = effectIndex
+			sunny.thtd_fairy_combo_islink = true
+			star.thtd_fairy_combo_islink = true
+			luna.thtd_fairy_combo_islink = true
 
--- 				effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, luna, 5, "attach_hitloc", Vector(0,0,0), true)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, star, 5, "attach_hitloc", Vector(0,0,0), true)
+			local sunny_effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, sunny)
+			ParticleManager:SetParticleControlEnt(sunny_effectIndex , 0, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
+			ParticleManager:SetParticleControlEnt(sunny_effectIndex , 1, luna, 5, "attach_hitloc", Vector(0,0,0), true)
 
--- 				luna.thtd_luna_combo_effect_index = effectIndex
+			local luna_effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, luna)
+			ParticleManager:SetParticleControlEnt(luna_effectIndex , 0, luna, 5, "attach_hitloc", Vector(0,0,0), true)
+			ParticleManager:SetParticleControlEnt(luna_effectIndex , 1, star, 5, "attach_hitloc", Vector(0,0,0), true)
 
--- 				effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, target)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 0, star, 5, "attach_hitloc", Vector(0,0,0), true)
--- 				ParticleManager:SetParticleControlEnt(effectIndex , 1, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
+			local star_effectIndex = ParticleManager:CreateParticle("particles/heroes/daiyousei/ability_daiyousei_03.vpcf", PATTACH_CUSTOMORIGIN, star)
+			ParticleManager:SetParticleControlEnt(star_effectIndex , 0, star, 5, "attach_hitloc", Vector(0,0,0), true)
+			ParticleManager:SetParticleControlEnt(star_effectIndex , 1, sunny, 5, "attach_hitloc", Vector(0,0,0), true)
 
--- 				star.thtd_star_combo_effect_index = effectIndex
--- 			end
--- 		end
-		
--- 	else
--- 		local hero = self:GetOwner()
--- 		local fairyList = GetHeroFairyList(hero)
+			self.thtd_combo_fairyList = 
+			{
+				sunny = sunny,
+				star = star,
+				luna = luna,
+				sunny_effectIndex = sunny_effectIndex,
+				luna_effectIndex = luna_effectIndex,
+				star_effectIndex = star_effectIndex,
+			}
+		end
+	elseif self.thtd_combo_fairyList ~= nil and (self.thtd_combo_fairyList.sunny == nil or self.thtd_combo_fairyList.sunny:IsNull() or self.thtd_combo_fairyList.sunny:THTD_IsHidden()
+		or self.thtd_combo_fairyList.star == nil or self.thtd_combo_fairyList.star:IsNull() or self.thtd_combo_fairyList.star:THTD_IsHidden()
+		or self.thtd_combo_fairyList.luna == nil or self.thtd_combo_fairyList.luna:IsNull() or self.thtd_combo_fairyList.luna:THTD_IsHidden())
+	then
+		local v = self.thtd_combo_fairyList
 
--- 		local sunny = nil
--- 		local luna = nil
--- 		local star = nil
-
--- 		for i=1,math.floor(#fairyList/3) do
--- 			for k,v in pairs(fairyList) do
--- 				if v:GetUnitName() == "sunny" then
--- 					sunny = v
--- 					table.remove(fairyList,k)
--- 				elseif v:GetUnitName() == "luna" then
--- 					luna = v
--- 					table.remove(fairyList,k)
--- 				elseif v:GetUnitName() == "star" then
--- 					star = v
--- 					table.remove(fairyList,k)
--- 				end
--- 			end
-
--- 			if sunny~=nil and luna~=nil and star~=nil then
--- 				ParticleManager:DestroyParticleSystem(sunny.thtd_sunny_combo_effect_index,false)
--- 				ParticleManager:DestroyParticleSystem(luna.thtd_luna_combo_effect_index,false)
--- 				ParticleManager:DestroyParticleSystem(star.thtd_star_combo_effect_index,false)
--- 			end
--- 		end
--- 	end
--- 	combo = {}
--- 	return comboVoiceTable
--- end
+		if v ~= nil then
+			if v.sunny~=nil and v.sunny:IsNull()==false and v.sunny:IsAlive() and v.sunny_effectIndex~=nil then
+				ParticleManager:DestroyParticleSystem(v.sunny_effectIndex,true)
+				v.sunny.thtd_fairy_combo_islink = false
+			end
+			if v.luna~=nil and v.luna:IsNull()==false and v.luna:IsAlive() and v.luna_effectIndex~=nil then
+				ParticleManager:DestroyParticleSystem(v.luna_effectIndex,true)
+				v.luna.thtd_fairy_combo_islink = false
+			end
+			if v.star~=nil and v.star:IsNull()==false and v.star:IsAlive() and v.star_effectIndex~=nil then
+				ParticleManager:DestroyParticleSystem(v.star_effectIndex,true)
+				v.star.thtd_fairy_combo_islink = false
+			end
+			self.thtd_combo_fairyList = nil
+		end
+	end
+	combo = {}
+	return comboVoiceTable
+end
 
 function HasCombo(combo,name)
 	for k,v in pairs(combo) do

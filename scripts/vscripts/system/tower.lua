@@ -1396,10 +1396,10 @@ thtd_ability_table =
 	["sanae"] = 
 	{
 		[1] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 1,["thtd_sanae_03"] = 0,["thtd_sanae_04"] = 0},
-		[2] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 1,["thtd_sanae_03"] = 0,["thtd_sanae_04"] = 0},
-		[3] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 1,["thtd_sanae_03"] = 0,["thtd_sanae_04"] = 0},
-		[4] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 1,["thtd_sanae_03"] = 1,["thtd_sanae_04"] = 0},
-		[5] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 1,["thtd_sanae_03"] = 1,["thtd_sanae_04"] = 0},
+		[2] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 2,["thtd_sanae_03"] = 0,["thtd_sanae_04"] = 0},
+		[3] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 3,["thtd_sanae_03"] = 0,["thtd_sanae_04"] = 0},
+		[4] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 4,["thtd_sanae_03"] = 1,["thtd_sanae_04"] = 0},
+		[5] = {["thtd_sanae_01"] = 1,["thtd_sanae_02"] = 5,["thtd_sanae_03"] = 1,["thtd_sanae_04"] = 0},
 	},
 
 	["kanako"] = 
@@ -1529,10 +1529,10 @@ thtd_ability_table =
 
 	["medicine"] = {
 		[1] = {["thtd_medicine_01"] = 1,["thtd_medicine_02"] = 0},
-		[2] = {["thtd_medicine_01"] = 1,["thtd_medicine_02"] = 0},
-		[3] = {["thtd_medicine_01"] = 1,["thtd_medicine_02"] = 1},
-		[4] = {["thtd_medicine_01"] = 1,["thtd_medicine_02"] = 1},
-		[5] = {["thtd_medicine_01"] = 1,["thtd_medicine_02"] = 1},
+		[2] = {["thtd_medicine_01"] = 2,["thtd_medicine_02"] = 0},
+		[3] = {["thtd_medicine_01"] = 3,["thtd_medicine_02"] = 1},
+		[4] = {["thtd_medicine_01"] = 4,["thtd_medicine_02"] = 1},
+		[5] = {["thtd_medicine_01"] = 5,["thtd_medicine_02"] = 1},
 	},
 
 	["luna"] = {

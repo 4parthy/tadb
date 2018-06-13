@@ -7,11 +7,86 @@ function GetHeroFairyList(hero)
     local fairyList = {}
     local count = 0
     for k,v in pairs(hero.thtd_hero_tower_list) do
-        if v:GetUnitName() == "sunny" or v:GetUnitName() == "star" or v:GetUnitName() == "luna" then
-            table.insert(fairyList,v)
+        if v:GetUnitName() == "sunny" and v.thtd_combo_fairyList ~= nil then
+            table.insert(fairyList,v.thtd_combo_fairyList)
         end
     end
     return fairyList
+end
+
+function IsUnitInFairyArea(hero,unit)
+    local fairyList = GetHeroFairyList(hero)
+
+    for k,v in pairs(fairyList) do
+        local pos1 = v.sunny:GetAbsOrigin()
+        local pos2 = v.star:GetAbsOrigin()
+        local pos3 = v.luna:GetAbsOrigin()
+
+        local origin = unit:GetAbsOrigin()
+
+        if IsInTriangle(pos1,pos2,pos3,origin) == true then
+            return true
+        end
+    end
+
+    return false
+end
+
+function GetFairyAreaCenterAndRadiusList(hero)
+    local fairyList = GetHeroFairyList(hero)
+    local centerTableList = {}
+
+    for k,v in pairs(fairyList) do
+        local pos1 = v.sunny:GetAbsOrigin()
+        local pos2 = v.star:GetAbsOrigin()
+        local pos3 = v.luna:GetAbsOrigin()
+
+        local center,radius = GetCircleCenterAndRadius(pos1,pos2,pos3) 
+        local centerTable = 
+        {
+            center = center,
+            radius = radius,
+        }
+        table.insert(centerTableList,centerTable)
+    end
+
+    return centerTableList
+end
+      
+function GetTriangleArea(p0,p1,p2)
+    local ab = Vector(p1.x - p0.x, p1.y - p0.y, 0)
+    local bc = Vector(p2.x - p1.x, p2.y - p1.y, 0)
+    return math.abs((ab.x * bc.y - ab.y * bc.x) / 2.0)
+ end
+      
+function IsInTriangle(a,b,c,d)
+    local sabc = getTriangleArea(a, b, c)
+    local sadb = getTriangleArea(a, d, b)
+    local sbdc = getTriangleArea(b, d, c)
+    local sadc = getTriangleArea(a, d, c)
+          
+    local sumSuqar = sadb + sbdc + sadc;  
+          
+    if (-0.0001 < (sabc - sumSuqar) and (sabc - sumSuqar) < 0.0001) then
+        return true
+    end
+    return false
+end
+
+function GetCircleCenterAndRadius(p0,p1,p2)  
+   local x1 = p0.x 
+   local x2 = p1.x
+   local x3 = p2.x
+   local y1 = p0.y
+   local y2 = p1.y
+   local y3 = p2.y
+
+   local x=((y2-y1)*(y3*y3-y1*y1+x3*x3-x1*x1)-(y3-y1)*(y2*y2-y1*y1+x2*x2-x1*x1))/(2*(x3-x1)*(y2-y1)-2*((x2-x1)*(y3-y1)))
+   local y=((x2-x1)*(x3*x3-x1*x1+y3*y3-y1*y1)-(x3-x1)*(x2*x2-x1*x1+y2*y2-y1*y1))/(2*(y3-y1)*(x2-x1)-2*((y2-y1)*(x3-x1)))
+
+   local radius = math.sqrt((p0.x - x)*(p0.x - x) + (p0.y - y)*(p0.y - y))
+
+   return Vector(x,y,0),radius
 end
 
 function GetTempleOfGodBuffedTowerCount(targets)

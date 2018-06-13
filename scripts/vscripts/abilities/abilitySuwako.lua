@@ -147,7 +147,7 @@ function OnSuwako03SpellStart(keys)
 
 			v:SetContextThink(DoUniqueString("thtd_suwako_03_unit_up"), 
 				function()
-					if GameRules:IsGamePaused() then return end
+					if GameRules:IsGamePaused() then return 0.03 end
 					vh = vh + g
 					curOrigin = Vector(curOrigin.x + math.cos(rad) * speed,curOrigin.y + math.sin(rad) * speed,curOrigin.z + vh)
 					v:SetOrigin(curOrigin)
