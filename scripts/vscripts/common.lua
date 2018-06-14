@@ -60,10 +60,10 @@ function GetTriangleArea(p0,p1,p2)
  end
       
 function IsInTriangle(a,b,c,d)
-    local sabc = getTriangleArea(a, b, c)
-    local sadb = getTriangleArea(a, d, b)
-    local sbdc = getTriangleArea(b, d, c)
-    local sadc = getTriangleArea(a, d, c)
+    local sabc = GetTriangleArea(a, b, c)
+    local sadb = GetTriangleArea(a, d, b)
+    local sbdc = GetTriangleArea(b, d, c)
+    local sadc = GetTriangleArea(a, d, c)
           
     local sumSuqar = sadb + sbdc + sadc;  
           

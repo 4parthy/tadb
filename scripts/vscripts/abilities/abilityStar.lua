@@ -2,7 +2,26 @@ function OnStar01SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local targetPoint = keys.target_points[1]
 
-   	local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_star/ability_star_01.vpcf", PATTACH_CUSTOMORIGIN, caster)
+   	OnStar01Damage(keys,targetPoint)
+
+   	local hero = caster:GetOwner()
+	if hero~=nil and hero:IsNull()==false then
+		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		for index,centerTable in pairs(centerList) do
+			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
+
+			for k,v in pairs(targets) do
+				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
+					OnStar01Damage(keys,v:GetOrigin())
+				end
+			end
+		end
+	end
+end
+
+function OnStar01Damage(keys,targetPoint)
+	local caster = EntIndexToHScript(keys.caster_entindex)
+	local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_star/ability_star_01.vpcf", PATTACH_CUSTOMORIGIN, caster)
 	ParticleManager:SetParticleControl(effectIndex, 0, targetPoint)
 	ParticleManager:DestroyParticleSystem(effectIndex,false)
 
@@ -31,6 +50,26 @@ function OnStar02SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local targetPoint = keys.target_points[1]
 
+	OnStar02Damage(keys,targetPoint)
+
+	local hero = caster:GetOwner()
+	if hero~=nil and hero:IsNull()==false then
+		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		for index,centerTable in pairs(centerList) do
+			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
+
+			for k,v in pairs(targets) do
+				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
+					OnStar02Damage(keys,v:GetOrigin())
+				end
+			end
+		end
+	end
+end
+
+
+function OnStar02Damage(keys,targetPoint)
+	local caster = EntIndexToHScript(keys.caster_entindex)
 	local damage = caster:THTD_GetStar() * caster:THTD_GetPower() * 0.5
 
 	local count = 0

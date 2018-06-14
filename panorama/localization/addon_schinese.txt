@@ -161,8 +161,8 @@
 	"avalon_store_donate"		"捐助"
 
 	"avalon_store_donate_item01_desc"		"回馈<font color='#FFB207'>捐款金额 x 100</font>阴阳玉"
-	"avalon_store_donate_item02_desc"		"<font color='#FFB207'>一次性捐款金额 >= 12元</font><br/>可获得一个月车票，不可叠加"
-	"avalon_store_donate_item03_desc"		"<font color='#FFB207'>一次性捐款金额 >= 30元</font><br/>可获得一个月随机卡池扩展包，不可叠加"
+	"avalon_store_donate_item02_desc"		"<font color='#FFB207'>一次性捐款金额 >= 12元</font><br/>可获得一个月车票，不可叠加<br>（每日送100阴阳玉、卡组位增至3个、开局随机抽一张SSR。）"
+	"avalon_store_donate_item03_desc"		"<font color='#FFB207'>一次性捐款金额 >= 30元</font><br>可获得一个月随机卡池扩展包，不可叠加<br/>（随机模式中可开启，进入游戏后卡池中加入所有卡片）<br/><br/>假设捐款30元，那么既可以获得车票也可以获得随机卡池扩展包"
 
 	"avalon_store_item_label_discount"	"折扣 {d:amount}%"
 	"avalon_store_item_label_only_buy_one"	"仅能购买一个"
