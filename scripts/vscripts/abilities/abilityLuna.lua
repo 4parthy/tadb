@@ -18,14 +18,18 @@ function OnLuna01Attack(keys)
 	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
 		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		local targetsTotal = {}
 		for index,centerTable in pairs(centerList) do
 			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
 
 			for k,v in pairs(targets) do
 				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					OnLuna01Damage(keys,v,2.0)
+					targetsTotal[v:GetEntityIndex()] = v
 				end
 			end
+		end
+		for k,v in pairs(targetsTotal) do
+			OnLuna01Damage(keys,v,2.0)
 		end
 	end
 end
@@ -77,14 +81,18 @@ function OnLuna02SpellStart(keys)
 	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
 		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		local targetsTotal = {}
 		for index,centerTable in pairs(centerList) do
 			local areatargets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
 
 			for k,v in pairs(areatargets) do
 				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					table.insert(targets,v)
+					targetsTotal[v:GetEntityIndex()] = v
 				end
 			end
+		end
+		for k,v in pairs(targetsTotal) do
+			table.insert(targets,v)
 		end
 	end
 

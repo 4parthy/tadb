@@ -7,14 +7,18 @@ function OnStar01SpellStart(keys)
    	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
 		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		local targetsTotal = {}
 		for index,centerTable in pairs(centerList) do
 			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
 
 			for k,v in pairs(targets) do
 				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					OnStar01Damage(keys,v:GetOrigin())
+					targetsTotal[v:GetEntityIndex()] = v
 				end
 			end
+		end
+		for k,v in pairs(targetsTotal) do
+			OnStar01Damage(keys,v:GetOrigin())
 		end
 	end
 end
@@ -55,14 +59,18 @@ function OnStar02SpellStart(keys)
 	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
 		local centerList = GetFairyAreaCenterAndRadiusList(hero)
+		local targetsTotal = {}
 		for index,centerTable in pairs(centerList) do
 			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
-
 			for k,v in pairs(targets) do
 				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					OnStar02Damage(keys,v:GetOrigin())
+					targetsTotal[v:GetEntityIndex()] = v
 				end
 			end
+		end
+
+		for k,v in pairs(targetsTotal) do
+			OnStar02Damage(keys,v:GetOrigin())
 		end
 	end
 end

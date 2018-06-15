@@ -116,3 +116,12 @@ end
 function THTD_GetVoiceEvent(cardName,key)
 	return "Voice_THTD."..cardName.."."..key
 end
+
+function THTD_GetItemCountByName(playerid,itemName)
+	for k,v in pairs(towerPlayerList[playerid+1]) do
+		if v["itemName"] == itemName then
+			return v["count"]
+		end
+	end
+	return 0
+end

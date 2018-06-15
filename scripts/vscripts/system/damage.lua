@@ -14,9 +14,9 @@ local thtd_momiji_damage_bonus =
 
 local thtd_sunny_damage_bonus =
 {
-    [3] = 0.2,
-    [4] = 0.3,
-    [5] = 0.5,
+    [3] = 0.1,
+    [4] = 0.15,
+    [5] = 0.25,
 }
 
 function UnitDamageTarget(damage_table)

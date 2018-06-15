@@ -1958,7 +1958,7 @@ function CDOTA_BaseNPC:THTD_SetLevel(level)
 
 	self:THTD_AddPower(thtd_power_table[unitName][self.thtd_star][2]*(upLevel))
 	local modifier = self:FindModifierByName("modifier_shinki_02_power_up_bonus_buff")
-	if modifier ~= nil and upLevel > 0 then
+	if modifier ~= nil and upLevel > 0 and SpawnSystem:GetWave() <= 51 then
 		local caster = modifier:GetCaster()
 		self:THTD_AddPower(caster:THTD_GetStar()*2*(upLevel))
 	end
@@ -1986,7 +1986,7 @@ function CDOTA_BaseNPC:THTD_LevelUp(level)
 
 	self:THTD_AddPower(thtd_power_table[unitName][self.thtd_star][2]*level)
 	local modifier = self:FindModifierByName("modifier_shinki_02_power_up_bonus_buff")
-	if modifier ~= nil then
+	if modifier ~= nil and SpawnSystem:GetWave() <= 51 then
 		local caster = modifier:GetCaster()
 		self:THTD_AddPower(caster:THTD_GetStar()*2*level)
 	end

@@ -226,7 +226,7 @@ function CTHTDGameMode:InitGameMode()
 			local caster = player:GetAssignedHero()
 			if caster == nil then return end
 			local itemName = data.itemname
-			if itemName ~= nil then 
+			if itemName ~= nil and THTD_GetItemCountByName(data.PlayerID,itemName) > 0 then 
 				if caster.thtd_last_select_item~=nil and caster.thtd_last_select_item:IsNull()==false then
 					caster:RemoveItem(caster.thtd_last_select_item)
 					local item = CreateItem(itemName, nil, nil)
