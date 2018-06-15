@@ -1,0 +1,33 @@
+Update: 10 Jun @ 5:30am
+Changed model files for remilia
+Changed card feed bonus from mand regen to power gain for remilia.
+Changed remilia's 3rd ability (buffs now apply)
+Changed aya attack to use average damage
+Changed flandere's 4th ability (buffs now apply)
+Changed Miko's 4th ability (chance from 10% to 8.3%)
+Changed Mokou's 2nd ability (keine combo increases chance by 15%)
+Changed Sakuya 2nd ability blacklist (added keine)
+Nerfed Seiga's 3rd ability (does half the damage now)
+Changed Tenshi's attack to use average damage
+
+Update: 13 Jun @ 9:31am
+combo for sunny,luna and star
+Changed Medecine's first ability (hit enemies only once per cast)
+Changed Reisen ai 3rd ability (hit enemies only once per cast)
+Changed Yuyuko ai 2nd ability (targeting)
+Changed Utsuho(rin) ai 3rd ability (targeting)
+Changed Sakuya ai 2nd, 3rd ability (targeting)
+Changed Yukari ai 1st, 2nd, 4th ability (targeting)
+Changed Sunny ai 2nd ability (targeting)
+Added ai for Mugiyousei
+Changed Keine boss (won't restore hp if already dead)
+Added new model files for sakuya
+Fixed saving bug in end screen
+Minor changes for sanae, sunny (display skill level corectly)
+
+Update: 15 Jun @ 9:46am
+Added potrait configuration for lilly, sakuya
+Minor changes to luna star sunny combo ability (mostly code cosmetics)
+Changes to card drawing (added item count check)
+Nerfed Sunny damage bonus from 20/30/50 to /10/15/25 %
+Nerfed Shinki (Disabled power bonus buff in endless waves)
