@@ -28,6 +28,6 @@ Minor changes for sanae, sunny (display skill level corectly)
 Update: 15 Jun @ 9:46am
 Added potrait configuration for lilly, sakuya
 Minor changes to luna star sunny combo ability (mostly code cosmetics)
-Changes to card drawing (added item count check)
+Changed gohei card selection (added item count check)
 Nerfed Sunny damage bonus from 20/30/50 to /10/15/25 %
 Nerfed Shinki (Disabled power bonus buff in endless waves)
