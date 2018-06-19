@@ -338,6 +338,14 @@ local vote_disconnect_player =
 local G_disconnect_player_count = 0
 local G_disconnect_dead_player_count = 0
 
+local winner_player =
+{
+	[1] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+	[2] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+	[3] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+	[4] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+}
+
 function CTHTDGameMode:OnGameRulesStateChange(keys)
   	local newState = GameRules:State_Get()
 
@@ -386,9 +394,7 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
 				if GameRules:IsGamePaused() then return 0.03 end
 
 				if GameRules:IsCheatMode() and IsInToolsMode() == false then
-					local base = Entities:FindByName(nil, "dota_goodguys_fort")
-					base:ForceKill(false)
-					return nil
+                    winner_player[keys.playerid+1] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
 				end
 
 				if SpawnSystem:GetWave() <= 51 then
@@ -406,7 +412,7 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
   						player_count = playerCount
 					end
 					if count > 40*playerCount then
-						local base = Entities:FindByName(nil, "dota_goodguys_fort")
+	                    local base = Entities:FindByName(nil, "dota_goodguys_fort")
 						base:ForceKill(false)
 						return nil
 					end
@@ -664,14 +670,14 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 						if SpawnSystem:GetWave() > 121 then 
 						 	ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
 						 	GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
-						 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+						 	GameRules:SetGameWinner(winner_player[keys.playerid+1])
 						 	return nil
 						end
 					else
 						if SpawnSystem:GetWave() > (80+(GameRules:GetCustomGameDifficulty()-1)*10) then 
 						 	ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
 						 	GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
-						 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+						 	GameRules:SetGameWinner(winner_player[keys.playerid+1])
 						 	return nil
 						end
 					end
@@ -782,7 +788,7 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 		hero:AddItem(item)
 		hero.choose_item_3 = item
 
-		if HasTouhouVIP(heroPlayerID) then
+		if true or HasTouhouVIP(heroPlayerID) then
 			item = CreateItem("item_1010", hero, hero)
 			hero:AddItem(item)
 		end
@@ -887,7 +893,7 @@ function CTHTDGameMode:OnPlayerSay( keys )
 		end
 	end
 
-	if IsInToolsMode() then
+	if GameRules:IsCheatMode() or IsInToolsMode() then
 		if text == "-config" then
 			_CopyConfig()
 		elseif text == "-win" then
@@ -896,6 +902,14 @@ function CTHTDGameMode:OnPlayerSay( keys )
 			QuestSystem:Update( 0, {Type="wave_clear", Wave=50} )
 		elseif text == "-server" then
 			ServerEvent( "set_can_select_free_mode", keys.playerid, {} )
+        elseif text == "-gold" then
+            PlayerResource:SetGold(keys.playerid, 99999, true)
+        elseif text == "-stop" then
+            SpawnSystem:StopWave(keys.playerid+1)
+        elseif text == "-resume" then
+            SpawnSystem:ResumeWave(keys.playerid+1)
+        elseif text == "-skip" then
+            SpawnSystem:SkipWaveTime(keys.playerid+1)
 		end
 	end
 end
