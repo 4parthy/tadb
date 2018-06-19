@@ -340,10 +340,10 @@ local G_disconnect_dead_player_count = 0
 
 local winner_player =
 {
-	[1] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
-	[2] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
-	[3] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
-	[4] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+	[1] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS,
+	[2] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS,
+	[3] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS,
+	[4] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS,
 }
 
 function CTHTDGameMode:OnGameRulesStateChange(keys)
@@ -393,8 +393,8 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
 
-				if GameRules:IsCheatMode() and IsInToolsMode() == false then
-                    winner_player[keys.playerid+1] = GameRules:IsCheatMode() and DOTA_TEAM_BADGUYS or DOTA_TEAM_GOODGUYS
+				if IsInToolsMode() == false and GameRules:IsCheatMode() and keys.playerid ~= nil then
+                    winner_player[keys.playerid+1] = DOTA_TEAM_BADGUYS
 				end
 
 				if SpawnSystem:GetWave() <= 51 then
