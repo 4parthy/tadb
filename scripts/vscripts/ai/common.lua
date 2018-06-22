@@ -344,7 +344,7 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	end
 end
 
-require( "../abilities/abilitysakuya")
+require( "../abilities/abilitySakuya")
 
 function THTDSystem:NeedSakuya(target)
 	if target:THTD_IsTower() and target:HasModifier("modifier_sakuya_02_buff") == false then
