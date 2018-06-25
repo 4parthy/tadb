@@ -153,7 +153,7 @@ function OnKaguya03SpellThink(keys)
 
 		for k,v in pairs(friends) do
 			if GetDistanceBetweenTwoVec2D(caster.thtd_kaguya_03_treasure_table[i]["origin"], v:GetOrigin()) > 200 then
-				if v:HasModifier(buff) then
+				if v:FindModifierByNameAndCaster(buff,caster)~=nil then
 					v:RemoveModifierByName(buff)
 				end
 			else
@@ -165,7 +165,7 @@ function OnKaguya03SpellThink(keys)
 
 		for k,v in pairs(enemies) do
 			if GetDistanceBetweenTwoVec2D(caster.thtd_kaguya_03_treasure_table[i]["origin"], v:GetOrigin()) > 200 then
-				if v:HasModifier(debuff) then
+				if v:FindModifierByNameAndCaster(debuff,caster)~=nil then
 					v:RemoveModifierByName(debuff)
 				end
 			else

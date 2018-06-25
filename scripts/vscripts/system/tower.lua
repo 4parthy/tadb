@@ -50,7 +50,7 @@ towerNameList = {
 	["item_0029"]={["kind"]="daiyousei",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=true}, -- 大妖精
 	["item_0030"]={["kind"]="remilia",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 蕾米莉亚
 	["item_0031"]={["kind"]="koishi",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=true}, -- 古明地恋
-	["item_0032"]={["kind"]="flandre",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 芙兰朵露·斯卡雷特
+	["item_0032"]={["kind"]="flandre",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=true}, -- 芙兰朵露·斯卡雷特
 	["item_0033"]={["kind"]="koakuma",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=true}, -- 小恶魔
 	["item_0034"]={["kind"]="meirin",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=false}, -- 红美铃
 	["item_0035"]={["kind"]="yuuka",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=true}, -- 风见幽香
@@ -71,8 +71,8 @@ towerNameList = {
 	["item_0051"]={["kind"]="byakuren",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 圣白莲
 	["item_0052"]={["kind"]="miko",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=true}, -- 丰聪耳神子
 	--["item_0053"]={["kind"]="kokoro",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 秦心
-	--["item_0054"]={["kind"]="yuugi",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 星熊勇仪*
-	--["item_0055"]={["kind"]="suika",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 伊吹萃香*
+	["item_0054"]={["kind"]="yuugi",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 星熊勇仪
+	["item_0055"]={["kind"]="suika",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 伊吹萃香
 	["item_0056"]={["kind"]="star",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=true}, -- 斯塔·萨菲雅
 	["item_0057"]={["kind"]="sunny",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=true}, -- 桑妮·米尔克
 	["item_0058"]={["kind"]="luna",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=true}, -- 露娜·切露德
@@ -88,8 +88,8 @@ towerNameList = {
 	--["item_0070"]={["kind"]="mamizou",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 二岩猯藏
 	--["item_0071"]={["kind"]="seija",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=false}, -- 鬼人正邪*
 	--["item_0072"]={["kind"]="shinmyoumaru",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=false}, -- 少名针妙丸*
-	--["item_0073"]={["kind"]="junko",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 纯狐*
-	--["item_0074"]={["kind"]="hecatia",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 赫卡提亚·拉碧斯拉祖利*
+	["item_0073"]={["kind"]="junko",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 纯狐*
+	["item_0074"]={["kind"]="hecatia",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 赫卡提亚·拉碧斯拉祖利*
 	--["item_0075"]={["kind"]="clownpiece",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=false}, -- 克劳恩皮丝*
 	--["item_0076"]={["kind"]="kishin",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=false}, -- 稀神探女*
 	--["item_0077"]={["kind"]="matara",["quality"]=4,["hasPortrait"]=true,["hasVoice"]=false}, -- 摩多罗隐岐奈*
@@ -134,6 +134,7 @@ towerNameList = {
 	["item_2024"]={["kind"]="item_2024",["quality"]=3,["hasPortrait"]=false,["hasVoice"]=false},
 	["item_2025"]={["kind"]="item_2025",["quality"]=3,["hasPortrait"]=false,["hasVoice"]=false},
 	["item_2026"]={["kind"]="item_2026",["quality"]=3,["hasPortrait"]=false,["hasVoice"]=false},
+	["item_1015"]={["kind"]="item_1015",["quality"]=2,["hasPortrait"]=false,["hasVoice"]=false},
 }
 
 towerPlayerList = {
@@ -595,6 +596,36 @@ thtd_power_table =
 		[4] = {375,6.5},
 		[5] = {1800,10},
 	},
+	["yuugi"] = 
+	{
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
+	},
+	["suika"] = 
+	{
+		[1] = {25,3.0},
+		[2] = {85,4.5},
+		[3] = {220,5},
+		[4] = {450,7.5},
+		[5] = {2200,15.0},
+	},
+	["junko"] = {
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
+	},
+	["hecatia"] = {
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
+	},
 }
 
 -- 这个表是每颗星增加多少攻击
@@ -1051,6 +1082,36 @@ thtd_attack_table =
 		[3] = {160,5},
 		[4] = {375,6.5},
 		[5] = {1800,10},
+	},
+	["yuugi"] = 
+	{
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
+	},
+	["suika"] = 
+	{
+		[1] = {25,3.0},
+		[2] = {85,4.5},
+		[3] = {220,5},
+		[4] = {450,7.5},
+		[5] = {2200,15.0},
+	},
+	["junko"] = {
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
+	},
+	["hecatia"] = {
+		[1] = {30,3.0},
+		[2] = {110,5.0},
+		[3] = {300,7.5},
+		[4] = {600,10.0},
+		[5] = {2400,30.0},
 	},
 }
 
@@ -1557,6 +1618,40 @@ thtd_ability_table =
 		[3] = {["thtd_star_01"] = 3,["thtd_star_02"] = 1},
 		[4] = {["thtd_star_01"] = 4,["thtd_star_02"] = 1},
 		[5] = {["thtd_star_01"] = 5,["thtd_star_02"] = 1},
+	},
+
+	["yuugi"] = {
+		[1] = {["thtd_yuugi_01"] = 1,["thtd_yuugi_02"] = 0,["thtd_yuugi_03"] = 0},
+		[2] = {["thtd_yuugi_01"] = 1,["thtd_yuugi_02"] = 0,["thtd_yuugi_03"] = 0},
+		[3] = {["thtd_yuugi_01"] = 1,["thtd_yuugi_02"] = 1,["thtd_yuugi_03"] = 0},
+		[4] = {["thtd_yuugi_01"] = 1,["thtd_yuugi_02"] = 1,["thtd_yuugi_03"] = 1},
+		[5] = {["thtd_yuugi_01"] = 1,["thtd_yuugi_02"] = 1,["thtd_yuugi_03"] = 1},
+	},
+
+	["suika"] = {
+		[1] = {["thtd_suika_01"] = 1,["thtd_suika_02"] = 1,["thtd_suika_03"] = 0,["thtd_suika_04"] = 0},
+		[2] = {["thtd_suika_01"] = 2,["thtd_suika_02"] = 1,["thtd_suika_03"] = 0,["thtd_suika_04"] = 0},
+		[3] = {["thtd_suika_01"] = 3,["thtd_suika_02"] = 1,["thtd_suika_03"] = 1,["thtd_suika_04"] = 0},
+		[4] = {["thtd_suika_01"] = 4,["thtd_suika_02"] = 1,["thtd_suika_03"] = 1,["thtd_suika_04"] = 1},
+		[5] = {["thtd_suika_01"] = 5,["thtd_suika_02"] = 1,["thtd_suika_03"] = 1,["thtd_suika_04"] = 1},
+	},
+
+	["junko"] = 
+	{
+		[1] = {["thtd_junko_01"] = 1,["thtd_junko_02"] = 1,["thtd_junko_03"] = 0,["thtd_junko_04"] = 0},
+		[2] = {["thtd_junko_01"] = 1,["thtd_junko_02"] = 1,["thtd_junko_03"] = 0,["thtd_junko_04"] = 0},
+		[3] = {["thtd_junko_01"] = 1,["thtd_junko_02"] = 1,["thtd_junko_03"] = 1,["thtd_junko_04"] = 0},
+		[4] = {["thtd_junko_01"] = 1,["thtd_junko_02"] = 1,["thtd_junko_03"] = 1,["thtd_junko_04"] = 0},
+		[5] = {["thtd_junko_01"] = 1,["thtd_junko_02"] = 1,["thtd_junko_03"] = 1,["thtd_junko_04"] = 1},
+	},
+
+	["hecatia"] = 
+	{
+		[1] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 0,["thtd_hecatia_04"] = 0},
+		[2] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 0,["thtd_hecatia_04"] = 0},
+		[3] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
+		[4] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
+		[5] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
 	},
 }		
 
@@ -2294,6 +2389,7 @@ local thtd_Unique_Slow_Buff =
 	"modifier_yoshika_01_slow",
 	"modifier_medicine_01_slow",
 	"modifier_star_01_slow",
+	"modifier_suika_01_slow_debuff",
 }
 
 

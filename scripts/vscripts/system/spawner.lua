@@ -179,7 +179,7 @@ function SpawnSystem:InitAttackSpawn()
 	}
 	for i = 1,table.nums(spawner) do
 		if spawner[i] ~= nil then
-			-- spawner[i].CurWave = 15
+			-- spawner[i].CurWave = 5
 			spawner[i]:SetContextThink(DoUniqueString("AttackSpawn"..tostring(i)) ,
 			function() 
 
