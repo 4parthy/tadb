@@ -812,6 +812,34 @@ function CDOTA_BaseNPC:THTD_star_thtd_ai()
 	end
 end
 
+function CDOTA_BaseNPC:THTD_suika_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_suika_03")
+	local ability2 = self:FindAbilityByName("thtd_suika_04")
+	local unit = THTDSystem:FindRadiusOneUnit(self,800)
+
+	if unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability1)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability2)
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_yuugi_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_yuugi_01")
+	local ability2 = self:FindAbilityByName("thtd_yuugi_03")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability1)
+	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability2)
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
 function THTDSystem:CastAbility(unit,ability)
 	if ability:IsUnitTarget() then
 		local teams = DOTA_UNIT_TARGET_TEAM_ENEMY

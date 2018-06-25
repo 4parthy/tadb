@@ -31,3 +31,15 @@ Minor changes to luna star sunny combo ability (mostly code cosmetics)
 Changed gohei card selection (added item count check)
 Nerfed Sunny damage bonus from 20/30/50 to /10/15/25 %
 Nerfed Shinki (Disabled power bonus buff in endless waves)
+
+Update: 25 Jun @ 6:50pm
+Added new model files for Yukari
+Added cards Suika and Yuugi
+Added cards Hecatia and Junko (w/o abilities)
+Added new item (w/o ability)
+Changed Kaguya's 3rd ability (no more buff overwrite of other kaguya)
+Added Yuugi's 3rd ability to Sakuya's 3rd ability's black list
+Changed Satori's 1st ability (always re apply 2nd ability debuff)
+Changed tower congfig (enabled Flandre voice)
+Added Suika's slow to unique slow buff list
+ 

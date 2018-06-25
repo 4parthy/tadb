@@ -283,6 +283,22 @@
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
+	// 酒
+	"item_1015"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"9015"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_1015"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"					"1"
+		"ItemCost"							"2000"
+		"ItemSellable"						"1"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
 	// 四次元爆弹
 	"item_2001"
 	{
@@ -2316,6 +2332,66 @@
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
+	// 星熊勇仪
+	"item_0054"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8054"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0054"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"5000"
+		"Model"								"models/thd_hero/yuugi/item/item_yuugi.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 伊吹萃香
+	"item_0055"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8055"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0055"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"5000"
+		"Model"								"models/thd_hero/suika/item/item_suika.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
 	// 斯塔·萨菲雅
 	"item_0056"
 	{
@@ -2448,6 +2524,66 @@
 		"AbilityCastRange"					"100"
 		"ItemCost"							"2000"
 		"Model"								"models/thd_hero/toramarushou/item/item_toramarushou.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 纯狐
+	"item_0073"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8073"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0073"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"10000"
+		"Model"								"models/items/courier/jin_yin_white_fox/jin_yin_white_fox.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 赫卡提亚
+	"item_0074"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8074"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0074"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"10000"
+		"Model"								"models/items/courier/hermit_crab/lotus_orb.vmdl"
 		"ItemPurchasable"				    "0"
 		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
 		
