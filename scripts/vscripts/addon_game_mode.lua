@@ -1049,6 +1049,10 @@ function CTHTDGameMode:OnDamageFilter(keys)
 		return false
 	end
 
+	if unit == "junko" or unit:HasModifier("modifier_junko_01") then
+        return true
+    end
+
 	local damage_table = {
 			ability = keys.ability,
 			victim = target,

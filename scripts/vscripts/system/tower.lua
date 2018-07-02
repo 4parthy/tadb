@@ -1647,8 +1647,8 @@ thtd_ability_table =
 
 	["hecatia"] = 
 	{
-		[1] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 0,["thtd_hecatia_04"] = 0},
-		[2] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 0,["thtd_hecatia_04"] = 0},
+		[1] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
+		[2] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
 		[3] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
 		[4] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
 		[5] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},

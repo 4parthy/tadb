@@ -20,6 +20,11 @@ local thtd_sunny_damage_bonus =
 }
 
 function UnitDamageTarget(damage_table)
+    if damage_table.attacker == "junko" or damage_table.attacker:HasModifier("modifier_junko_01") then
+        local DamageTable = clone(damage_table)
+        DamageTable.damage_type = DAMAGE_TYPE_PURE 
+        return ApplyDamage(DamageTable)
+    end
     local DamageTable = PassTheUnitDamageSystem(damage_table)
     damage_table = {}
 
