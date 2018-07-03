@@ -12,6 +12,8 @@ thtd_sanae_01 = class({})
 function thtd_sanae_01:OnSpellStart()
 	local caster = self:GetCaster()
 	local target = self:GetCursorTarget()
+	-- AI需要改动的地方
+	caster.thtd_last_cast_unit = target
 
 	local ExtraData = { 
 			count=0
@@ -57,7 +59,8 @@ function thtd_sanae_01:OnProjectileHit_ExtraData( hTarget, vLocation, data )
 	if target:THTD_IsTower() and target.thtd_sanae_01_bonus ~= true then
 		local bonus = thtd_sanae_star_bonus[caster:THTD_GetStar()] / (data.count+1)
 		target:THTD_AddPower(bonus)
-		caster.thtd_last_cast_unit = target
+		-- AI需要改动的地方
+		-- caster.thtd_last_cast_unit = target
 		target.thtd_sanae_01_bonus = true
 
 		local effectIndex = ParticleManager:CreateParticle("particles/heroes/sanae/ability_sanae_01_effect.vpcf", PATTACH_CUSTOMORIGIN, target)

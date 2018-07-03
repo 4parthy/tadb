@@ -508,7 +508,7 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 				DamageTable.damage = DamageTable.damage * ((1 - (armor * 0.05) /(1 + armor * 0.05)))
 			end
 
-			if unit:GetHealth() < ReturnAfterTaxDamageAfterAbility(DamageTable)/5 then
+			if unit:GetHealth() < ReturnAfterTaxDamageAfterAbility(DamageTable)/3 then
 				self:CastAbilityOnTarget(unit, ability4, self:GetPlayerOwnerID())
 				return
 			end
@@ -528,7 +528,7 @@ function CDOTA_BaseNPC:NeedRefreshAbility()
 	if self:THTD_IsTower() and self:HasModifier("modifier_sakuya_02_buff") == false then
 		for i=2,5 do
 			local ability = self:GetAbilityByIndex(i)
-			if ability~=nil and IsInSakuya02BlackList(ability) == false then 
+			if ability~=nil and ability:GetAbilityName()~="ability_common_attack_buff" and IsInSakuya02BlackList(ability) == false then 
 				if ability:GetCooldownTimeRemaining() > 4 or (ability:GetManaCost(ability:GetLevel()) > 0 and self:GetManaPercent() < 60) then
 					needRefresh = true
 					keepWait = false
@@ -559,6 +559,7 @@ function CDOTA_BaseNPC:THTD_sakuya_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability3) and (THTDSystem:FindRadiusUnitCount(self, 800)>5 or THTDSystem:FindRadiousMostDangerousUnit(self,400)~=nil ) then
 		self:CastAbilityNoTarget(ability3, self:GetPlayerOwnerID())
+		return
 	end
 
 	if self:IsReadyToCastAbility(ability1) then
@@ -651,7 +652,7 @@ function CDOTA_BaseNPC:THTD_yukari_thtd_ai()
 		self.thtd_yukari_01_stock = 3
 	end
 
-	if self:IsReadyToCastAbility(ability4) and (#THTD_FindUnitsInner(self)>12 or THTDSystem:FindRadiousMostDangerousUnit(self,400)~=nil) then
+	if self:IsReadyToCastAbility(ability4) and (#THTD_FindUnitsInner(self)>=12 or THTDSystem:FindRadiousMostDangerousUnit(self,400)~=nil) then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
 		return
 	end
@@ -684,6 +685,7 @@ function CDOTA_BaseNPC:THTD_ran_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
 		self:CastAbilityNoTarget(ability2, self:GetPlayerOwnerID())
+		-- ability2:CastAbility()
 		return
 	end
 
@@ -779,11 +781,11 @@ function CDOTA_BaseNPC:THTD_aya_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_aya_02")
 
 	if self:IsReadyToCastAbility(ability) then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 5000, 300, 1200)
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 5000, 300, 1400)
 		if point~=nil then
 			local forward = (point - self:GetAbsOrigin()):Normalized()
 			local dist = GetDistanceBetweenTwoVec2D(self:GetAbsOrigin() ,point)
-			dist = math.max(800, math.min(1400, dist+200))
+			dist = math.max(1000, math.min(1400, dist+200))
 			point = self:GetAbsOrigin() + dist * forward
 			self:CastAbilityOnPosition(point, ability, self:GetPlayerOwnerID())
 			return
@@ -827,6 +829,7 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
+		return
 	end
 
 	if self:IsReadyToCastAbility(ability2) then
@@ -871,6 +874,7 @@ function CDOTA_BaseNPC:THTD_kanako_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self,750)~=nil then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
+		return
 	end
 
 	if self:IsReadyToCastAbility(ability1) then
@@ -939,12 +943,13 @@ function CDOTA_BaseNPC:THTD_nue_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability1) and ability2:IsInAbilityPhase() == false and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
 		self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
+		return
 	end
 
 	if self:IsReadyToCastAbility(ability2) and ability2:IsInAbilityPhase() == false then
-		local unit = THTDSystem:FindRadiusOneUnit(self, ability2:GetCastRange())
-		if unit~=nil and unit:IsNull()==false then
-			self:CastAbilityOnPosition(unit:GetAbsOrigin(), ability2, self:GetPlayerOwnerID())
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 1500, 140, 1500)
+		if point~=nil then
+			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
 			return
 		end
 	end
@@ -1159,8 +1164,7 @@ function CDOTA_BaseNPC:THTD_medicine_thtd_ai()
 		if unit~=nil and unit:IsNull()==false then
 			point = unit:GetAbsOrigin() + 350*GetUnitBackWardVector(unit,self:GetPlayerOwnerID())
 		else
-			point,count = THTDSystem:FindRadiusOnePointPerfectAOE(self, ability2:GetCastRange(), 400)
-			if count < 4 then point = nil end
+			point = THTDSystem:FindRadiusOnePointPerfectAOE(self, ability2:GetCastRange(), 400)
 		end
 		if point~=nil then
 			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
@@ -1292,6 +1296,28 @@ function CDOTA_BaseNPC:THTD_yuugi_thtd_ai()
 			if count < 7 then point=nil end
 		end
 		if point~=nil then
+			self:CastAbilityOnPosition(point, ability3, self:GetPlayerOwnerID())
+			return
+		end
+	end
+
+	if self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_junko_thtd_ai()
+	local ability2 = self:FindAbilityByName("thtd_junko_02")
+	local ability3 = self:FindAbilityByName("thtd_junko_03")
+
+	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, 1000)>=3 then
+		self:CastAbilityNoTarget(ability2, self:GetPlayerOwnerID())
+		return
+	end
+
+	if self:IsReadyToCastAbility(ability3) then
+		local point,count = THTDSystem:FindRadiusOnePointPerfectAOE(self, ability3:GetCastRange(), 500)
+		if point~=nil and count>=3 then
 			self:CastAbilityOnPosition(point, ability3, self:GetPlayerOwnerID())
 			return
 		end

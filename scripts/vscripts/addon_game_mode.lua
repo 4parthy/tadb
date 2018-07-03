@@ -1036,6 +1036,18 @@ function CTHTDGameMode:OnDamageFilter(keys)
 	end
 
 	if unit == "junko" or unit:HasModifier("modifier_junko_01") then
+		if keys.damage > 0 then
+			if unit:THTD_IsTower() then
+				local damage = math.min(keys.damage,target:GetHealth())
+				unit.thtd_tower_damage = unit.thtd_tower_damage + damage
+			elseif unit.thtd_spawn_unit_owner ~= nil and unit.thtd_spawn_unit_owner:IsNull()==false and unit.thtd_spawn_unit_owner:IsAlive() then
+				local tower = unit.thtd_spawn_unit_owner
+				if tower:THTD_IsTower() then
+					local damage = math.min(keys.damage,target:GetHealth())
+					tower.thtd_tower_damage = tower.thtd_tower_damage + damage
+				end
+			end
+		end
         return true
     end
 

@@ -126,10 +126,10 @@ function OnJunko03SpellStart(keys)
 		if v.thtd_junko_02_debuff_count ~= nil then
 			if v.thtd_junko_02_debuff_count < 10 then
 				damage = damage * (1 + v.thtd_junko_02_debuff_count * 0.1) 
-				v.thtd_junko_02_debuff_count = 0
 			else
 				UnitStunTarget(caster,v,1.0)
 			end
+			v.thtd_junko_02_debuff_count = 0
 		end
 
 		local DamageTable = {
