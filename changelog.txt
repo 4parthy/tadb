@@ -49,3 +49,9 @@ Added abilities to Junko and Hecatia
 Changed potrait configuration for many towers
 Changed ai for many towers (targeting/casting)
 
+Update: 3 Jul @ 6:41pm
+Changed Junko's 3rd ability (minor fix)
+Changed Sanae's 1st ability (ai targeting)
+Added Junko's 1st ability buff damage
+Changed ai for many towers (fixes, added junko)
+
