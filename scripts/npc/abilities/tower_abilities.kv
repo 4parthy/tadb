@@ -1654,7 +1654,7 @@
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
-		"AbilityCastPoint"		"0.3"
+		"AbilityCastPoint"		"0"
 		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_4"
 		"AbilityCooldown"		"1"
 		"AbilityManaCost"		"40"
@@ -4714,7 +4714,7 @@
 		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityCastPoint"		"0.2"
+		"AbilityCastPoint"		"0"
 		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_2"
 		"AbilityCooldown"		"11"
 		// Stats
@@ -8811,7 +8811,20 @@
 		"precache"
 		{
 			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_01_earth.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_earth_rain.vpcf"
 		}
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"			"false"
+			"RunScript"
+			{
+				"ScriptFile"		"scripts/vscripts/abilities/abilityHecatia.lua"
+				"Target"			"TARGET"
+				"Function"			"OnHecatiaProjectileHit"
+			}
+		}
+
 		"OnSpellStart"
 		{
 			"RunScript"
@@ -8839,6 +8852,17 @@
 					}
 				}
 			}
+
+			"modifier_thtd_hecatia_01_debuff"
+			{	
+				"EffectName"			"particles/heroes/thtd_hecatia/ability_hecatia_earth_debuff.vpcf"
+				"EffectAttachType"		"attach_hitloc"
+				
+				"States"
+				{
+					"MODIFIER_STATE_ROOTED"			"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
 		}
 	}
 
@@ -8860,6 +8884,8 @@
 		"precache"
 		{
 			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_01_moon.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_moon_reflex.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_moon_hit.vpcf"
 		}
 		"OnSpellStart"
 		{
@@ -8894,6 +8920,8 @@
 		"precache"
 		{
 			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_01_otherworld.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_otherworld.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_otherworld_projectile.vpcf"
 		}
 		"OnSpellStart"
 		{

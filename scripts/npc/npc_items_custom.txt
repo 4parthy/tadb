@@ -2583,7 +2583,7 @@
 		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange"					"100"
 		"ItemCost"							"10000"
-		"Model"								"models/items/courier/hermit_crab/lotus_orb.vmdl"
+		"Model"								"models/new_touhou_model/hecatia/item/item_hecatia.vmdl"
 		"ItemPurchasable"				    "0"
 		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
 		

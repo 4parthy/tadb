@@ -693,6 +693,7 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_combo(combo)
 		end
 		if ability:GetLevel()~=1 then
 			ability:SetLevel(1)
+			ability:SetActivated(true)
 		end
 	else
 		if self:HasModifier("modifier_thtd_ss_kill") then

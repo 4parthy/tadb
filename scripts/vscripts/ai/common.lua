@@ -503,11 +503,6 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 		        damage_type = DAMAGE_TYPE_PHYSICAL, 
 		        damage_flags = DOTA_DAMAGE_FLAG_NONE
 		   	}
-			local armor = unit:GetPhysicalArmorValue()
-			if armor > 0 then
-				DamageTable.damage = DamageTable.damage * ((1 - (armor * 0.05) /(1 + armor * 0.05)))
-			end
-
 			if unit:GetHealth() < ReturnAfterTaxDamageAfterAbility(DamageTable)/3 then
 				self:CastAbilityOnTarget(unit, ability4, self:GetPlayerOwnerID())
 				return
@@ -628,7 +623,7 @@ function CDOTA_BaseNPC:THTD_yuuka_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability4) then
 		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability4:GetCastRange(), 300, 1000)
-		if point~=nil and count > 7 then
+		if point~=nil and count >= 5 then
 			self:CastAbilityOnPosition(point, ability4, self:GetPlayerOwnerID())
 			return
 		end
@@ -781,12 +776,11 @@ function CDOTA_BaseNPC:THTD_aya_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_aya_02")
 
 	if self:IsReadyToCastAbility(ability) then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 5000, 300, 1400)
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 66666, 300, 66666)
 		if point~=nil then
 			local forward = (point - self:GetAbsOrigin()):Normalized()
 			local dist = GetDistanceBetweenTwoVec2D(self:GetAbsOrigin() ,point)
-			dist = math.max(1000, math.min(1400, dist+200))
-			point = self:GetAbsOrigin() + dist * forward
+			point = self:GetAbsOrigin() + (dist + 200) * forward
 			self:CastAbilityOnPosition(point, ability, self:GetPlayerOwnerID())
 			return
 		end
@@ -824,8 +818,6 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_sanae_02")
 	local ability3 = self:FindAbilityByName("thtd_sanae_03")
 	local ability4 = self:FindAbilityByName("thtd_sanae_04")
-	local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self,1000)
-	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
 
 	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
@@ -1182,7 +1174,7 @@ function CDOTA_BaseNPC:THTD_luna_thtd_ai()
 
 	if self:IsReadyToCastAbility(ability2) and self.thtd_luna_02_bonus~=true then
 		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability2:GetCastRange(), 200, 1000)
-		if point~=nil and count>4 then
+		if point~=nil and count>=3 then
 			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
 			return
 		end

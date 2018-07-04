@@ -1037,6 +1037,13 @@ function CTHTDGameMode:OnDamageFilter(keys)
 
 	if unit == "junko" or unit:HasModifier("modifier_junko_01") then
 		if keys.damage > 0 then
+			if target:HasModifier("modifier_bosses_kaguya") then
+			    if keys.damage > target:GetHealth() then
+			    	target:SetHealth(1)
+			    	target:RemoveModifierByName("modifier_bosses_kaguya")
+					return false
+				end
+			end
 			if unit:THTD_IsTower() then
 				local damage = math.min(keys.damage,target:GetHealth())
 				unit.thtd_tower_damage = unit.thtd_tower_damage + damage

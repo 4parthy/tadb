@@ -20,11 +20,6 @@ local thtd_sunny_damage_bonus =
 }
 
 function UnitDamageTarget(damage_table)
-    if damage_table.attacker == "junko" or damage_table.attacker:HasModifier("modifier_junko_01") then
-        local DamageTable = clone(damage_table)
-        DamageTable.damage_type = DAMAGE_TYPE_PURE 
-        return ApplyDamage(DamageTable)
-    end
     local DamageTable = PassTheUnitDamageSystem(damage_table)
     damage_table = {}
 
@@ -33,6 +28,11 @@ end
 
 function PassTheUnitDamageSystem(damage_table)
     local DamageTable = clone(damage_table)
+
+    if DamageTable.attacker == "junko" or DamageTable.attacker:HasModifier("modifier_junko_01") then
+        DamageTable.damage_type = DAMAGE_TYPE_PURE 
+        return DamageTable
+    end
 
     if DamageTable.damage_type == DAMAGE_TYPE_MAGICAL then
         DamageTable.damage_flags = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
@@ -105,6 +105,10 @@ function ReturnAfterTaxDamageAfterAbility(damage_table)
 end
 
 function ReturnAfterTaxDamage(DamageTable)
+    if DamageTable.attacker == "junko" or DamageTable.attacker:HasModifier("modifier_junko_01") then
+        return DamageTable.damage
+    end
+
     local unit = DamageTable.attacker
     local target = DamageTable.victim
 
