@@ -55,3 +55,12 @@ Changed Sanae's 1st ability (ai targeting)
 Added Junko's 1st ability buff damage
 Changed ai for many towers (fixes, added junko)
 
+Update: 3 Jul @ 4:41pm 
+Added clownpiece models
+Added spellicons (Keine, Luna, Star, Sunny)
+Changed Hecatia planet models
+Changed Hecatia abilities (finalized) 
+Junko's 1st ability buff damage removes Kaguya-Boss buff.
+Changed ai for Flandre, Aya, Sanae, Luna (minor adjustments)
+Fixed Sanaes 4th ability combo unlock
+
