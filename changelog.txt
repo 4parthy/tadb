@@ -64,3 +64,12 @@ Junko's 1st ability buff damage removes Kaguya-Boss buff.
 Changed ai for Flandre, Aya, Sanae, Luna (minor adjustments)
 Fixed Sanaes 4th ability combo unlock
 
+ Update: 6 Jul @ 1:38pm 
+ Changed potrait config (Added Hecatia's planets)
+ Added Hecatia's 4th ability
+ Changed Hecatia's abilities (damage nerf)
+ Changed Luna's 1st ability (damage nerf)
+ Changed ai for Flandre, Sanae, Nue, Sakuya, Yoshika (targeting)
+ Changed ai for Sakuya's 2nd ability (ignore abilities with cd/mana of 1)
+ Changed Lunasa's 2nd ability to unlock at 4 Stars instead 3
+ 
