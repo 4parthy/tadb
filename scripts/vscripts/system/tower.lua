@@ -1205,7 +1205,7 @@ thtd_ability_table =
 	["lunasa"] = {
 		[1] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
 		[2] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
-		[3] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
+		[3] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
 		[4] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
 		[5] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
 	},
@@ -1647,10 +1647,10 @@ thtd_ability_table =
 
 	["hecatia"] = 
 	{
-		[1] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
-		[2] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
-		[3] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
-		[4] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 0},
+		[1] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
+		[2] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
+		[3] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
+		[4] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
 		[5] = {["thtd_hecatia_01"] = 1,["thtd_hecatia_02"] = 1,["thtd_hecatia_03"] = 1,["thtd_hecatia_04"] = 1},
 	},
 }		

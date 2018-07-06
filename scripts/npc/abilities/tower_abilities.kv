@@ -8938,6 +8938,40 @@
 		}
 	}
 
+	"thtd_hecatia_04"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"touhoutd/thtd_hecatia_04"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		// Stats
+		// ----------------------------------------------------------------
+		"MaxLevel"				"1"
+
+		"precache"
+		{
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_04_triangle.vpcf"
+			"particle"			"particles/heroes/thtd_hecatia/ability_hecatia_04_laser.vpcf"
+		}
+
+		"Modifiers"
+		{
+			"modifier_hecatia_04_think"
+			{
+				"Passive"			"1"
+				"IsHidden"			"1"
+				"ThinkInterval"		"1.0"
+
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities/abilityHecatia.lua"
+						"Function"		"OnHecatia04Think"
+					}
+				}
+			}
+		}
+	}
 		
 	"ability_common_power_buff"
 	{

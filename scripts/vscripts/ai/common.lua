@@ -183,7 +183,7 @@ function CDOTA_BaseNPC:THTD_marisa_thtd_ai()
 	local ability3 = self:FindAbilityByName("thtd_marisa_03")
 
 	if self:IsReadyToCastAbility(ability3) then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability3:GetCastRange(), 300, 1200)
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability3:GetCastRange(), 300, 1200, false)
 		if point~=nil then
 			self:CastAbilityOnPosition(point, ability3, self:GetPlayerOwnerID())
 			return
@@ -191,7 +191,7 @@ function CDOTA_BaseNPC:THTD_marisa_thtd_ai()
 	end
 
 	if ability3:GetLevel() == 0 and self:IsReadyToCastAbility(ability1) then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability1:GetCastRange(), 300, 1200)
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability1:GetCastRange(), 300, 1200, false)
 		if point~=nil then
 			self:CastAbilityOnPosition(point, ability1, self:GetPlayerOwnerID())
 			return
@@ -449,7 +449,7 @@ function CDOTA_BaseNPC:THTD_remilia_thtd_ai()
 
 
 	if self:IsReadyToCastAbility(ability2) then
-		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability2:GetCastRange(), 300, 2500)
+		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability2:GetCastRange(), 300, 2500, false)
 		if point~=nil and count>=3 then 
 			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID()) 
 			return
@@ -473,16 +473,17 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_flandre_01")
 	local ability4 = self:FindAbilityByName("thtd_flandre_04")
 
-	local target = THTDSystem:FindRadiusWeakOneUnit(self,self:GetAttackRange())
-	if target~=nil and target:IsNull()==false then
-		THTDSystem:ChangeAttackTarget(self, target)
+	if self.thtd_attatck_target==nil or self.thtd_attatck_target:IsNull() or GetDistance(self, self.thtd_attatck_target)>self:GetAttackRange() then
+		local target = THTDSystem:FindRadiusWeakOneUnit(self,self:GetAttackRange())
+		if target~=nil and target:IsNull()==false and target:IsAlive() then
+			self.thtd_attatck_target = target
+			THTDSystem:ChangeAttackTarget(self, target)
+		end
 	end
 
 	if self:IsReadyToCastAbility(ability1) then
 		local range = self:GetAttackRange()
-		if ability4:GetLevel()>0 then
-			range = ability4:GetCastRange()
-		end
+		if ability4:GetLevel()>0 then range = ability4:GetCastRange() end
 		if THTDSystem:FindRadiusUnitCount(self, range)>0 then
 			self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
 			return
@@ -518,24 +519,23 @@ end
 require( "../abilities/abilitysakuya")
 
 function CDOTA_BaseNPC:NeedRefreshAbility()
-	local keepWait = false
-	local needRefresh = false
 	if self:THTD_IsTower() and self:HasModifier("modifier_sakuya_02_buff") == false then
+		local targetAbility = nil
 		for i=2,5 do
 			local ability = self:GetAbilityByIndex(i)
-			if ability~=nil and ability:GetAbilityName()~="ability_common_attack_buff" and IsInSakuya02BlackList(ability) == false then 
-				if ability:GetCooldownTimeRemaining() > 4 or (ability:GetManaCost(ability:GetLevel()) > 0 and self:GetManaPercent() < 60) then
-					needRefresh = true
-					keepWait = false
-				elseif (ability:IsCooldownReady()==false and ability:GetCooldownTimeRemaining()<=4) or
-					(ability:IsCooldownReady() and ability:GetCooldown(ability:GetLevel())>0 and self:GetMana() >= ability:GetManaCost(ability:GetLevel())) then
-					keepWait = true
-					needRefresh = false
-				end
+			if ability~=nil and ability:GetAbilityName()~="ability_common_attack_buff" and not IsInSakuya02BlackList(ability) and 
+				(ability:GetCooldown(-1)>0 or ability:GetManaCost(-1)>0) then
+				targetAbility = ability
+			end
+		end
+		if targetAbility ~= nil then
+			if targetAbility:GetCooldownTimeRemaining()/targetAbility:GetCooldown(-1) > 0.35 or --刷新cd，cd剩余在35%以上 
+				(targetAbility:GetManaCost(-1) > 0 and self:GetManaPercent() < 60) then--刷新回蓝
+				return true
 			end
 		end
 	end
-	if keepWait==true then return false else return needRefresh end
+	return false
 end
 
 function CDOTA_BaseNPC:THTD_sakuya_thtd_ai()
@@ -622,7 +622,7 @@ function CDOTA_BaseNPC:THTD_yuuka_thtd_ai()
 	end
 
 	if self:IsReadyToCastAbility(ability4) then
-		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability4:GetCastRange(), 300, 1000)
+		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability4:GetCastRange(), 300, 1000, false)
 		if point~=nil and count >= 5 then
 			self:CastAbilityOnPosition(point, ability4, self:GetPlayerOwnerID())
 			return
@@ -776,7 +776,7 @@ function CDOTA_BaseNPC:THTD_aya_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_aya_02")
 
 	if self:IsReadyToCastAbility(ability) then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 66666, 300, 66666)
+		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 6666, 300, 1500, true)
 		if point~=nil then
 			local forward = (point - self:GetAbsOrigin()):Normalized()
 			local dist = GetDistanceBetweenTwoVec2D(self:GetAbsOrigin() ,point)
@@ -819,7 +819,7 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_ai()
 	local ability3 = self:FindAbilityByName("thtd_sanae_03")
 	local ability4 = self:FindAbilityByName("thtd_sanae_04")
 
-	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil then
+	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil and self:HasModifier("modifier_sanae_04_buff")==false then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
 		return
 	end
@@ -933,15 +933,19 @@ function CDOTA_BaseNPC:THTD_nue_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_nue_01")
 	local ability2 = self:FindAbilityByName("thtd_nue_02")
 
-	if self:IsReadyToCastAbility(ability1) and ability2:IsInAbilityPhase() == false and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
-		self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
-		return
+	if self:IsReadyToCastAbility(ability1) and ability2:IsInAbilityPhase() == false then
+		local range = self:GetAttackRange()
+		if ability2:GetLevel()>0 then range = ability2:GetCastRange() end
+		if THTDSystem:FindRadiusUnitCount(self, range)>0 then
+			self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
+			return
+		end
 	end
 
 	if self:IsReadyToCastAbility(ability2) and ability2:IsInAbilityPhase() == false then
-		local point = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, 1500, 140, 1500)
-		if point~=nil then
-			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
+		local unit = THTDSystem:FindRadiusWeakOneUnit(self, ability2:GetCastRange())
+		if unit~=nil and unit:IsNull()==false and unit:IsAlive() then
+			self:CastAbilityOnPosition(unit:GetAbsOrigin(), ability2, self:GetPlayerOwnerID())
 			return
 		end
 	end
@@ -1058,9 +1062,6 @@ function CDOTA_BaseNPC:THTD_yoshika_thtd_ai()
 	local target = self:GetAttackTarget()
 	if target==nil or target:IsNull() or target:HasModifier("modifier_yoshika_01_slow") then
 		target = THTDSystem:FindRadiusOneUnitHasNoModifier(self, self:GetAttackRange(), "modifier_yoshika_01_slow")
-		if target==nil then 
-			_,_,target = THTDSystem:FindRadiusOnePointPerfectAOE(self, self:GetAttackRange(), 300) 
-		end
 		if target~=nil and target:IsNull()==false then 
 			THTDSystem:ChangeAttackTarget(self,target) 
 		end
@@ -1173,7 +1174,7 @@ function CDOTA_BaseNPC:THTD_luna_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_luna_02")
 
 	if self:IsReadyToCastAbility(ability2) and self.thtd_luna_02_bonus~=true then
-		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability2:GetCastRange(), 200, 1000)
+		local point,count = THTDSystem:FindRadiusOnePointPerfectLineAOE(self, ability2:GetCastRange(), 200, 1000, false)
 		if point~=nil and count>=3 then
 			self:CastAbilityOnPosition(point, ability2, self:GetPlayerOwnerID())
 			return
@@ -1586,12 +1587,12 @@ function THTDSystem:FindRadiusOnePointPerfectAOE( entity, range, AOErange)
 	return nil, 0
 end
 
-function THTDSystem:FindRadiusOnePointPerfectLineAOE(entity, range, width, length)
+function THTDSystem:FindRadiusOnePointPerfectLineAOE(entity, range, width, length, onlyInner)
 	local enemies = THTD_FindUnitsInRadius(entity, entity:GetOrigin(), range)
 	if #enemies > 10 then enemies = THTD_RandomUnitSelection(enemies, 10) end
 	local target,maxCount = nil, 0
 	for k,v in pairs(enemies) do
-		if v~=nil and v:IsNull()==false then
+		if v~=nil and v:IsNull()==false and not (onlyInner and v.thtd_is_outer==true) then
 			local forward = (v:GetAbsOrigin() - entity:GetAbsOrigin()):Normalized()
 			local count = THTDSystem:FindRadiusUnitCountInLine(entity, entity:GetOrigin(), forward, width, length)
 			if target == nil or count > maxCount then
@@ -1650,7 +1651,7 @@ function THTDSystem:ChangeAttackTarget(entity, target)
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
 			if target==nil or target:IsNull() or target:IsAlive()==false or 
-				entity==nil or entity:IsNull() or entity:GetAttackTarget()==target then
+				entity==nil or entity:IsNull() or entity:GetAttackTarget()==target or GetDistance(entity,target)>entity:GetAttackRange() then
 				entity.thtd_changing_attack_target = false
 				return nil
 			end

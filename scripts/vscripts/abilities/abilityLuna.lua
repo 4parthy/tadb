@@ -3,16 +3,16 @@ function OnLuna01Attack(keys)
 	local target = keys.target
 	local targetPoint = target:GetOrigin()
 
-	OnLuna01Damage(keys,target,1.0)
+	OnLuna01Damage(keys,target,0.8)
 	
 	local targets = THTD_FindUnitsInRadius(caster,targetPoint,1000)
 
 	if targets[1]~=nil then
-		OnLuna01Damage(keys,targets[1],2.0)
+		OnLuna01Damage(keys,targets[1],1.6)
 	end
 
 	if targets[2]~=nil then
-		OnLuna01Damage(keys,targets[2],2.0)
+		OnLuna01Damage(keys,targets[2],1.6)
 	end
 
 	local hero = caster:GetOwner()
@@ -29,7 +29,7 @@ function OnLuna01Attack(keys)
 			end
 		end
 		for k,v in pairs(targetsTotal) do
-			OnLuna01Damage(keys,v,2.0)
+			OnLuna01Damage(keys,v,1.6)
 		end
 	end
 end
