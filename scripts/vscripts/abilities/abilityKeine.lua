@@ -32,15 +32,20 @@ function OnKeine01SpellStart(keys)
 
 				local bonus = thtd_keine_01_attack_bonus[caster:THTD_GetStar()]
 				target:THTD_AddAttack(bonus)
-
+				local time = 10.0
 				target:SetContextThink(DoUniqueString("thtd_keine_01_buff_remove"), 
 					function()
 						if GameRules:IsGamePaused() then return 0.03 end
-						target:THTD_AddAttack(-bonus)
-						target.thtd_keine_01_open = false
-						ParticleManager:DestroyParticleSystem(effectIndex,true)
+						if time <= 0 or caster==nil or caster:IsNull() or caster:THTD_IsHidden() then 							
+							target:THTD_AddAttack(-bonus)
+							target.thtd_keine_01_open = false
+							ParticleManager:DestroyParticleSystem(effectIndex,true)
+							return nil 
+						end
+						time = time - 0.5
+						return 0.5
 					end,
-				10.0)
+				0)
 			end
 		end
 	end
@@ -103,10 +108,16 @@ function OnKeine02SpellStart(keys)
 		caster.thtd_keine_change = THTD_KEINE_02_SHIRASAWA
 		caster:SetModel("models/thd_hero/keine/keine2/keine2.vmdl")
 		caster:SetOriginalModel("models/thd_hero/keine/keine2/keine2.vmdl")
+		if caster.thtd_close_ai == true then
+			CustomGameEventManager:Send_ServerToPlayer( caster:GetPlayerOwner() , "show_message", {msg="change_to_keine_shirasawa", duration=5, params={}, color="#0ff"} )
+		end
 	elseif caster.thtd_keine_change == THTD_KEINE_02_SHIRASAWA then
 		caster.thtd_keine_change = THTD_KEINE_02_HUMEN
 		caster:SetModel("models/thd_hero/keine/keine.vmdl")
 		caster:SetOriginalModel("models/thd_hero/keine/keine.vmdl")
+		if caster.thtd_close_ai == true then
+			CustomGameEventManager:Send_ServerToPlayer( caster:GetPlayerOwner() , "show_message", {msg="change_to_keine_humen", duration=5, params={}, color="#0ff"} )
+		end
 	end
 end
 

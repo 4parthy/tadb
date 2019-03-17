@@ -13,47 +13,40 @@ function OnJunko01SpellStart(keys)
 	ParticleManager:SetParticleControlEnt(effectIndex_caster , 0, caster, 5, "follow_origin", Vector(0,0,0), true)
 	caster.ability_junko_01_target = target
 
-	local count = 0
 	caster:SetContextThink(DoUniqueString("modifier_junko_01"), 
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
-			if caster.ability_junko_01_target ~= target then
+			if caster:THTD_IsHidden() then
 				if target~=nil and target:IsNull()==false and target:HasModifier("modifier_junko_01") then
 					target:RemoveModifierByName("modifier_junko_01")
 				end
 				ParticleManager:DestroyParticleSystem(effectIndex,true)
 				ParticleManager:DestroyParticleSystem(effectIndex_caster,true)
-				return nil
-			end
-			return 0.1
-		end,
-	0.1)
-
-	caster:SetContextThink("modifier_junko_01_remove", 
-		function()
-			if GameRules:IsGamePaused() then return 0.03 end
-			if caster:HasModifier("modifier_touhoutd_release_hidden") or keys.ability:GetLevel()<1 then
 				caster.ability_junko_01_target = nil
 				return nil
 			end
-			return 0.1
+			if caster.ability_junko_01_target ~= target then
+				if target~=nil and target:IsNull()==false and target:HasModifier("modifier_junko_01") then
+					target:RemoveModifierByName("modifier_junko_01")
+				end
+				ParticleManager:DestroyParticleSystem(effectIndex,true)				
+				return nil
+			end
+			return 0.2
 		end,
-	0.1)
+	0.2)	
 end
 
 function OnJunko02SpellStart(keys)
-	local caster = EntIndexToHScript(keys.caster_entindex)
-	local max_count = 50
+	local caster = EntIndexToHScript(keys.caster_entindex)		
+	local max_count = 25	
 
 	caster:SetContextThink("modifier_junko_02_think", 
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
-
-			if max_count > 0 then
-				max_count = max_count - 1
-			else
-				return nil
-			end
+			if caster==nil or caster:IsNull() or caster:IsAlive()==false then return nil end
+			if caster:THTD_IsHidden() or max_count <= 0 then return nil end
+			max_count = max_count - 1
 
 			local forwardCos = caster:GetForwardVector().x
 			local forwardSin = caster:GetForwardVector().y
@@ -83,16 +76,15 @@ function OnJunko02SpellStart(keys)
 			}
 			local projectile = ProjectileManager:CreateLinearProjectile(info)
 			ParticleManager:DestroyLinearProjectileSystem(projectile,false)
-			return 0.1
+			return 0.2
 		end,
 	0.1)
 end
 
 function OnJunkoProjectileHit(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
-	local target = keys.target
-
-	local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 0.5
+	local target = keys.target	
+	local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 2
 
 	local DamageTable = {
 			ability = keys.ability,
@@ -107,11 +99,8 @@ function OnJunkoProjectileHit(keys)
    	if target.thtd_junko_02_debuff_count == nil then
    		target.thtd_junko_02_debuff_count = 0
    	end
-
-   	if target.thtd_junko_02_debuff_count < 10 then
-   		target.thtd_junko_02_debuff_count = target.thtd_junko_02_debuff_count + 1
-   	else
-   		target.thtd_junko_02_debuff_count = 10 
+   	if target.thtd_junko_02_debuff_count < 5 then
+   		target.thtd_junko_02_debuff_count = target.thtd_junko_02_debuff_count + 1   	
    	end
 end
 
@@ -121,14 +110,11 @@ function OnJunko03SpellStart(keys)
 
 	local targets = THTD_FindUnitsInRadius(caster,targetPoint,500)
 	for k,v in pairs(targets) do
-		local damage = caster:THTD_GetPower()*caster:THTD_GetStar()*2
+		local damage = caster:THTD_GetPower()*caster:THTD_GetStar() * 4
 		
 		if v.thtd_junko_02_debuff_count ~= nil then
-			if v.thtd_junko_02_debuff_count < 10 then
-				damage = damage * (1 + v.thtd_junko_02_debuff_count * 0.1) 
-			else
-				UnitStunTarget(caster,v,1.0)
-			end
+			damage = damage * (1 + v.thtd_junko_02_debuff_count * 0.2) 
+			if v.thtd_junko_02_debuff_count >= 5 then UnitStunTarget(caster,v,2) end
 			v.thtd_junko_02_debuff_count = 0
 		end
 
@@ -145,5 +131,35 @@ function OnJunko03SpellStart(keys)
 
 	local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_junko/ability_junko_03.vpcf", PATTACH_CUSTOMORIGIN, nil)
 	ParticleManager:SetParticleControl(effectIndex, 0, targetPoint)			
+	ParticleManager:DestroyParticleSystem(effectIndex,false)
+end
+
+function OnJunko04SpellStart(keys)
+	local caster = EntIndexToHScript(keys.caster_entindex)
+	local targetPoint = keys.target_points[1]
+
+	if caster.thtd_junko_04_duration == nil then caster.thtd_junko_04_duration = 1 end
+
+	local targets = THTD_FindUnitsInRadius(caster,targetPoint,500)
+	for k,v in pairs(targets) do
+		local damage = caster:THTD_GetPower()*caster:THTD_GetStar()*20
+
+		local DamageTable = {
+			ability = keys.ability,
+	        victim = v, 
+	        attacker = caster, 
+	        damage = damage, 
+	        damage_type = keys.ability:GetAbilityDamageType(), 
+	        damage_flags = DOTA_DAMAGE_FLAG_NONE
+	   	}
+		UnitDamageTarget(DamageTable)		
+		keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_junko_04_debuff", {Duration = caster.thtd_junko_04_duration})
+	end
+
+	local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_junko/ability_junko_04.vpcf", PATTACH_CUSTOMORIGIN, nil)
+	ParticleManager:SetParticleControl(effectIndex, 0, targetPoint+Vector(0,0,64))		
+	ParticleManager:SetParticleControl(effectIndex, 1, Vector(1,0,0))			
+	ParticleManager:SetParticleControl(effectIndex, 2, Vector(255,255,255))				
+	ParticleManager:SetParticleControl(effectIndex, 3, targetPoint)	
 	ParticleManager:DestroyParticleSystem(effectIndex,false)
 end

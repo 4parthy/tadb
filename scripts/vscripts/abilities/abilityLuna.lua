@@ -15,23 +15,34 @@ function OnLuna01Attack(keys)
 		OnLuna01Damage(keys,targets[2],1.6)
 	end
 
+	local fairyArea = nil
 	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
-		local centerList = GetFairyAreaCenterAndRadiusList(hero)
-		local targetsTotal = {}
-		for index,centerTable in pairs(centerList) do
-			local targets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
+		local fairyList = GetHeroFairyList(hero)    	
+		for k,v in pairs(fairyList) do
+			if v.luna == caster then
+				fairyArea = v
+				break
+			end
+		end
+	end
 
-			for k,v in pairs(targets) do
-				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					targetsTotal[v:GetEntityIndex()] = v
-				end
+	if fairyArea ~= nil then 
+		local pos1 = fairyArea.sunny:GetAbsOrigin()
+		local pos2 = fairyArea.star:GetAbsOrigin()
+		local pos3 = fairyArea.luna:GetAbsOrigin()
+		local center, radius = GetCircleCenterAndRadius(pos1,pos2,pos3) 
+		local targetsTotal = {}
+		local fairyTargets = THTD_FindUnitsInRadius(caster,center,radius)		
+		for _,v in pairs(fairyTargets) do
+			if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairy(fairyArea,v) then					
+				targetsTotal[v:GetEntityIndex()] = v
 			end
 		end
 		for k,v in pairs(targetsTotal) do
 			OnLuna01Damage(keys,v,1.6)
 		end
-	end
+	end	
 end
 
 function OnLuna01Damage(keys,target,percentage)
@@ -77,25 +88,37 @@ function OnLuna02SpellStart(keys)
 			keys.ability:GetAbilityTargetType(), 
 			keys.ability:GetAbilityTargetFlags()
 		)
-
+	
+	local fairyArea = nil
 	local hero = caster:GetOwner()
 	if hero~=nil and hero:IsNull()==false then
-		local centerList = GetFairyAreaCenterAndRadiusList(hero)
-		local targetsTotal = {}
-		for index,centerTable in pairs(centerList) do
-			local areatargets = THTD_FindUnitsInRadius(caster,centerTable.center,centerTable.radius)
-
-			for k,v in pairs(areatargets) do
-				if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairyArea(hero,v) then
-					targetsTotal[v:GetEntityIndex()] = v
-				end
+		local fairyList = GetHeroFairyList(hero)    	
+		for k,v in pairs(fairyList) do
+			if v.luna == caster then
+				fairyArea = v
+				break
 			end
-		end
-		for k,v in pairs(targetsTotal) do
-			table.insert(targets,v)
 		end
 	end
 
+	if fairyArea ~= nil then 
+		local pos1 = fairyArea.sunny:GetAbsOrigin()
+		local pos2 = fairyArea.star:GetAbsOrigin()
+		local pos3 = fairyArea.luna:GetAbsOrigin()
+		local center, radius = GetCircleCenterAndRadius(pos1,pos2,pos3) 
+		local targetsTotal = {}
+		local fairyTargets = THTD_FindUnitsInRadius(caster,center,radius)		
+		for _,v in pairs(fairyTargets) do
+			if v~=nil and v:IsNull()==false and v:IsAlive() and IsUnitInFairy(fairyArea,v) then					
+				targetsTotal[v:GetEntityIndex()] = v
+			end
+		end
+		for _,v in pairs(targetsTotal) do
+			table.insert(targets,v)
+		end
+		targetsTotal = {}
+	end
+	
 	local bonus = thtd_luna_02_bonus_table[caster:THTD_GetStar()] * (#targets)
 
 	if caster.thtd_luna_02_bonus == nil then
@@ -103,16 +126,16 @@ function OnLuna02SpellStart(keys)
 	end
 
 	if caster:THTD_IsTower() and caster.thtd_luna_02_bonus == false then
-		caster:THTD_AddPower(bonus)
-		caster:THTD_AddAttack(bonus)
 		caster.thtd_luna_02_bonus = true
-
+		caster:THTD_AddPower(bonus)
+		caster:THTD_AddAttack(bonus)		
 		caster:SetContextThink(DoUniqueString("thtd_luna_02_buff_remove"), 
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
 				caster:THTD_AddPower(-bonus)
 				caster:THTD_AddAttack(-bonus)
 				caster.thtd_luna_02_bonus = false
+				return nil
 			end,
 		7.0)
 	end

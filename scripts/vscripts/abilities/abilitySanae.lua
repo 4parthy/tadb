@@ -57,7 +57,7 @@ function thtd_sanae_01:OnProjectileHit_ExtraData( hTarget, vLocation, data )
 	local target = hTarget
 
 	if target:THTD_IsTower() and target.thtd_sanae_01_bonus ~= true then
-		local bonus = thtd_sanae_star_bonus[caster:THTD_GetStar()] / (data.count+1)
+		local bonus = math.floor(thtd_sanae_star_bonus[caster:THTD_GetStar()] / (data.count+1))
 		target:THTD_AddPower(bonus)
 		-- AI需要改动的地方
 		-- caster.thtd_last_cast_unit = target
@@ -66,14 +66,20 @@ function thtd_sanae_01:OnProjectileHit_ExtraData( hTarget, vLocation, data )
 		local effectIndex = ParticleManager:CreateParticle("particles/heroes/sanae/ability_sanae_01_effect.vpcf", PATTACH_CUSTOMORIGIN, target)
 		ParticleManager:SetParticleControlEnt(effectIndex , 0, target, 5, "follow_origin", Vector(0,0,0), true)
 		ParticleManager:DestroyParticleSystemTime(effectIndex,5.0)
-
+		local count = 10
 		caster:SetContextThink(DoUniqueString("thtd_koishi03_buff_remove"), 
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
-				target:THTD_AddPower(-bonus)
-				target.thtd_sanae_01_bonus = false
+				if count <= 0 or caster:THTD_IsHidden() then 
+					target:THTD_AddPower(-bonus)
+					target.thtd_sanae_01_bonus = false
+					if count > 0 then ParticleManager:DestroyParticleSystem(effectIndex, true) end
+					return nil
+				end
+				count = count - 1
+				return 0.5				
 			end,
-		5.0)
+		0)
 	end
 
 	local targets = 
@@ -172,7 +178,7 @@ function OnSanae03SpellStart(keys)
 		   			ability = keys.ability,
 		            victim = v, 
 		            attacker = caster, 
-		            damage = caster:THTD_GetPower() * caster:THTD_GetStar() * (1 + caster:THTD_GetFaith()/250), 
+		            damage = caster:THTD_GetPower() * caster:THTD_GetStar() * (1 + caster:THTD_GetFaith()/100), 
 		            damage_type = keys.ability:GetAbilityDamageType(), 
 		            damage_flags = DOTA_DAMAGE_FLAG_NONE
 			   	}
@@ -200,7 +206,10 @@ function OnSanae04SpellStart(keys)
 	local targets = THTD_FindFriendlyUnitsInRadius(caster,caster:GetOrigin(),1000)
 
 	for k,v in pairs(targets) do
-		ability:ApplyDataDrivenModifier(caster, v, "modifier_sanae_04_buff", nil)
+		local unitName = v:GetUnitName()
+		if unitName == "sanae" or unitName == "kanako" or unitName == "suwako" then 
+			ability:ApplyDataDrivenModifier(caster, v, "modifier_sanae_04_buff", nil)
+		end
 	end
 
 	local effectIndex = ParticleManager:CreateParticle("particles/heroes/sanae/ability_sanea_04_effect_b.vpcf", PATTACH_CUSTOMORIGIN, caster)
@@ -211,11 +220,6 @@ end
 function OnSanaeKill(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	if caster:HasModifier("modifier_thtd_ss_kill") then
-		local modifier = caster:FindModifierByName("modifier_thtd_ss_faith")
-		if modifier==nil then
-			caster:AddNewModifier(caster, nil, "modifier_thtd_ss_faith", {})
-		elseif modifier:GetStackCount() < caster:THTD_GetStar() * 100 then
-			modifier:SetStackCount(modifier:GetStackCount()+1)
-		end
+		caster:THTD_AddFaith(1)
 	end
 end

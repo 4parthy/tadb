@@ -149,7 +149,7 @@ function OnTenshiProjectileHit(keys)
 end
 
 function Tenshi02GetChance(caster)
-	if RandomInt(0, 100) < 40 then
+	if RandomInt(1, 100) <= 40 then
 		return 4.0
 	end
 	return 1.0

@@ -94,7 +94,11 @@ function OnEirin02SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local ability = caster:FindAbilityByName("thtd_eirin_01")
 
-	local targets = THTD_FindUnitsInRadius(caster,caster:GetOrigin(),900)
+	local range = caster:Script_GetAttackRange()
+	if range == nil then range = caster:GetBaseAttackRange() end
+	if range == nil then range = 1000 end
+
+	local targets = THTD_FindUnitsInRadius(caster,caster:GetOrigin(),range)
 
 	if #targets>0 and targets[1]~=nil and targets[1]:IsNull()==false and ability~=nil then
 		OnEirin01TrackingProjectileToTarget(caster,targets[1],ability,keys.attacker)
@@ -165,7 +169,7 @@ function OnEirin03SpellStart(keys)
 			for k,v in pairs(targets) do
 				if GetDistanceBetweenTwoVec2D(targetPoint, v:GetOrigin()) > 400 then
 					local forward = (v:GetAbsOrigin() - targetPoint):Normalized()
-					v:SetOrigin(targetPoint+forward*400)
+					v:SetAbsOrigin(targetPoint+forward*400)
 				end
 			end
 			return 0.1

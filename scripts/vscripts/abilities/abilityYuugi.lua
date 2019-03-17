@@ -55,7 +55,7 @@ function OnYuugi02KnockBack(target,forward)
 				FindClearSpaceForUnit(target, target:GetOrigin(), false)
 				return nil
 			end
-			target:SetOrigin(target:GetOrigin()+forward*10)
+			target:SetAbsOrigin(target:GetOrigin()+forward*10)
 			time = time - 0.03
 			return 0.03
 		end,

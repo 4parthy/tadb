@@ -94,15 +94,14 @@ function OnByakuren01AttackLanded(keys)
 		caster.thtd_byakuren_01_extra_damage = 1.0
 	end
 
-
+	local factor = 1+THTD_GetStarLotusBuffedTowerCount(caster)*0.1
 	local targets = THTD_FindUnitsInRadius(caster,target:GetOrigin(),400)
-	local friends = THTD_FindFriendlyUnitsInRadius(caster,caster:GetOrigin(),1500)
-
+	local damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*factor
 	for k,v in pairs(targets) do
 		local damage_table = {
 			victim = v,
 			attacker = caster,
-			damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*(1+GetStarLotusBuffedTowerCount(friends)*0.1),
+			damage = damage,
 			ability = keys.ability,
 			damage_type = keys.ability:GetAbilityDamageType(), 
 			damage_flags = DOTA_DAMAGE_FLAG_NONE,
@@ -130,7 +129,7 @@ function OnByakuren03SpellThink(keys)
 
 	for k,v in pairs(targets) do
 		if v:HasModifier("modifier_byakuren_03_buff") == false then
-			if IsStarLotusTower(v) then
+			if THTD_IsStarLotusTower(v) then
 				if v.thtd_byakuren_03_religious_count == nil then
 					v.thtd_byakuren_03_religious_count = 0
 				end
@@ -165,9 +164,12 @@ function OnByakuren04AttackLanded(keys)
 		caster.thtd_byakuren_01_extra_damage = 1.0
 	end
 
+	local buffedCount = THTD_GetStarLotusBuffedTowerCount(caster)
+
 	if caster.thtd_byakuren_01_attack_time > 1.0 then
 		local targets = THTD_FindUnitsInRadius(caster,caster:GetOrigin(),1000)
 		local count = 1
+		local damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*7*(1 + buffedCount * 0.2)
 		for k,v in pairs(targets) do
 			local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_byakuren/ability_byakuren_04_laser.vpcf", PATTACH_CUSTOMORIGIN, caster)
 			ParticleManager:SetParticleControl(effectIndex, 0, caster:GetOrigin()+thtd_byakuren_04_point[count])
@@ -178,13 +180,12 @@ function OnByakuren04AttackLanded(keys)
 
 			local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_byakuren/ability_byakuren_04_item.vpcf", PATTACH_CUSTOMORIGIN, caster)
 			ParticleManager:SetParticleControl(effectIndex, 0, caster:GetOrigin()+thtd_byakuren_04_point[count])
-			ParticleManager:DestroyParticleSystemTime(effectIndex,1.0)
-
-			local friends = THTD_FindFriendlyUnitsInRadius(caster,caster:GetOrigin(),1500)
+			ParticleManager:DestroyParticleSystemTime(effectIndex,1.0)			
+			
 			local damage_table = {
 				victim = v,
 				attacker = caster,
-				damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*(6+GetStarLotusBuffedTowerCount(friends)),
+				damage = damage,
 				ability = keys.ability,
 				damage_type = DAMAGE_TYPE_MAGICAL, 
 				damage_flags = DOTA_DAMAGE_FLAG_NONE,
@@ -196,23 +197,24 @@ function OnByakuren04AttackLanded(keys)
 				break
 			end
 		end
+		return
 	end
 
 	if caster.thtd_byakuren_01_attack_time == 1.0 then
 		if caster.thtd_byakuren_04_attack_count == nil then
 			caster.thtd_byakuren_04_attack_count = 0
-		end
-		local friends = THTD_FindFriendlyUnitsInRadius(caster,caster:GetOrigin(),1500)
+		end		
 		caster.thtd_byakuren_04_attack_count = caster.thtd_byakuren_04_attack_count + 1
-		if caster.thtd_byakuren_04_attack_count > 6 / (1 + GetStarLotusBuffedTowerCount(friends)*0.2) then
+		if caster.thtd_byakuren_04_attack_count > 6 / (1 + buffedCount*0.2) then
 			caster.thtd_byakuren_04_attack_count = 0
 
 			local targets = THTD_FindUnitsInRadius(caster,caster:GetOrigin(),1000)
+			local damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*7*(1 + buffedCount * 0.2)
 			for k,v in pairs(targets) do
 				local damage_table = {
 					victim = v,
 					attacker = caster,
-					damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*6,
+					damage = damage,
 					ability = keys.ability,
 					damage_type = DAMAGE_TYPE_PURE, 
 					damage_flags = DOTA_DAMAGE_FLAG_NONE,
@@ -224,35 +226,43 @@ function OnByakuren04AttackLanded(keys)
 				ParticleManager:DestroyParticleSystem(particle,false)
 			end
 		end
+		return
 	end
 
-	if caster:HasModifier("modifier_byakuren_04_physical_buff") == false then
-		local chance = RandomInt(0,100)
-		if chance < 10 then
-			if caster.thtd_byakuren_01_attack_time < 1.0 then
-				if caster.thtd_byakuren_04_bonus_lock ~= true then
-					local friends = THTD_FindFriendlyUnitsInRadius(caster,caster:GetOrigin(),1500)
-					local bonus = caster:THTD_GetPower() * GetStarLotusBuffedTowerCount(friends) * 0.2
+	if caster.thtd_byakuren_01_attack_time < 1.0 then
+		if caster:HasModifier("modifier_byakuren_04_physical_buff") == false then
+			local chance = RandomInt(1,100)
+			if chance <= 10 then
+				if caster.thtd_byakuren_04_bonus_lock ~= true then						
+					caster.thtd_byakuren_04_bonus_lock = true	
+					local particle = ParticleManager:CreateParticle("particles/heroes/thtd_byakuren/ability_byakuren_04_phy.vpcf",PATTACH_CUSTOMORIGIN,caster)
+					ParticleManager:SetParticleControl(particle,0,caster:GetOrigin()+Vector(0,0,32))
+					ParticleManager:DestroyParticleSystemTime(particle,1.7)
+					keys.ability:ApplyDataDrivenModifier(caster,caster,"modifier_byakuren_04_pose", {Duration = 1.7})
+					keys.ability:ApplyDataDrivenModifier(caster,caster,"modifier_byakuren_04_physical_buff", {Duration = 5.0})	
+
+					local bonus = math.floor(caster:THTD_GetPower() * buffedCount * 0.2 + 0.5)
 					caster:THTD_AddPower(bonus)
 					caster:THTD_AddAttack(bonus)
-					caster.thtd_byakuren_04_bonus_lock = true
-
+					local time = 5.0
 					caster:SetContextThink(DoUniqueString("thtd_byakuren_04_bonus_remove"), 
 						function()
 							if GameRules:IsGamePaused() then return 0.03 end
-							caster:THTD_AddPower(-bonus)
-							caster:THTD_AddAttack(-bonus)
-							caster.thtd_byakuren_04_bonus_lock = false
+							if time <= 0 or caster.thtd_byakuren_01_attack_time >= 1.0 then 
+								caster:THTD_AddPower(-bonus)
+								caster:THTD_AddAttack(-bonus)
+								caster.thtd_byakuren_04_bonus_lock = false								
+								if caster:HasModifier("modifier_byakuren_04_physical_buff") then
+									caster:RemoveModifierByName("modifier_byakuren_04_physical_buff")
+								end
+								return nil
+							end
+							time = time - 0.2
+							return 0.2
 						end,
-					5.0)
+					0)
 				end
-
-				local particle = ParticleManager:CreateParticle("particles/heroes/thtd_byakuren/ability_byakuren_04_phy.vpcf",PATTACH_CUSTOMORIGIN,caster)
-				ParticleManager:SetParticleControl(particle,0,caster:GetOrigin()+Vector(0,0,32))
-				ParticleManager:DestroyParticleSystemTime(particle,1.7)
-
-				keys.ability:ApplyDataDrivenModifier(caster,caster,"modifier_byakuren_04_pose", {Duration = 1.7})
-				keys.ability:ApplyDataDrivenModifier(caster,caster,"modifier_byakuren_04_physical_buff", {Duration = 5.0})
+							
 			end
 		end
 	end

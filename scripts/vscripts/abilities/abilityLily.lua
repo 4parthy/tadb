@@ -1,14 +1,6 @@
-local thtd_lily_star_bouns =
-{
-	[1] = 1,
-	[2] = 1.8,
-	[3] = 2.4,
-	[4] = 3.2,
-	[5] = 4,
-}
-
 function OnLily01SpellStart(keys)
-	if SpawnSystem:GetWave() > 51 then return end
+	if SpawnSystem.IsUnLimited then return end
+	if GameRules:GetCustomGameDifficulty() == 10 then return end
 	local caster = keys.caster
 	local ability = keys.ability
 	local targetPoint = keys.target_points[1]
@@ -71,7 +63,7 @@ function OnLily01EffectThink(keys)
 	local caster = keys.caster
 	local ability = keys.ability
 
-	if ability:IsCooldownReady() and caster:GetMana() >= ability:GetManaCost(ability:GetLevel()) and SpawnSystem:GetWave() <= 51 then
+	if ability:IsCooldownReady() and ability:IsFullyCastable() and SpawnSystem.IsUnLimited == false then
 		if caster.thtd_lily_01_effectIndex == nil then
 			caster.thtd_lily_01_effectIndex = ParticleManager:CreateParticle("particles/heroes/lily/ability_lily_01_ready.vpcf", PATTACH_CUSTOMORIGIN, caster)
 			ParticleManager:SetParticleControlEnt(caster.thtd_lily_01_effectIndex , 0, caster, 5, "follow_origin", Vector(0,0,0), true)

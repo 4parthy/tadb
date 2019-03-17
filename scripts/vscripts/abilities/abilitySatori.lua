@@ -23,7 +23,7 @@ function OnSatori01SpellStart(keys)
 
 		if ability_02~=nil and ability_02:GetLevel() > 0 and v.thtd_satori_02_debuff ~= true then
 			v.thtd_satori_02_debuff = true
-			local health = v:GetHealth()
+			local health = v:GetHealth()			
 			v:SetContextThink(DoUniqueString("thtd_satori02_debuff"), 
 				function()
 					if GameRules:IsGamePaused() then return 0.03 end
@@ -32,10 +32,10 @@ function OnSatori01SpellStart(keys)
 					   			ability = ability_02,
 					            victim = v, 
 					            attacker = caster, 
-					            damage = (health - v:GetHealth())*thtd_satori_02[caster:THTD_GetStar()], 
+					            damage = (health - v:GetHealth()) * thtd_satori_02[caster:THTD_GetStar()], 
 					            damage_type = ability_02:GetAbilityDamageType(), 
 					            damage_flags = DOTA_DAMAGE_FLAG_NONE
-					   	}
+						}						
 					   	UnitDamageTarget(DamageTable)
 					end
 					v.thtd_satori_02_debuff = false
@@ -50,17 +50,16 @@ function OnSatori01ModifierCreated(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local target = keys.target
 
-	if caster.thtd_satori_01_special_open == true then
-		target.thtd_satori_01_debuff = DoUniqueString("thtd_satori_01_debuff")
-		ModifyPhysicalDamageIncomingPercentage(target,20,target.thtd_satori_01_debuff)
+	if caster.thtd_satori_01_special_open == true and target.thtd_satori_01_debuff ~= true then
+		target.thtd_satori_01_debuff = true
+		ModifyPhysicalDamageIncomingPercentage(target,20)
 	end
 end
 
 function OnSatori01ModifierDestroy(keys)
 	local target = keys.target
-
-	if target.thtd_satori_01_debuff ~= nil then
-		RemovePhysicalDamageIncoming(target,target.thtd_satori_01_debuff)
-		target.thtd_satori_01_debuff = nil
+	if target.thtd_satori_01_debuff == true then
+		ModifyPhysicalDamageIncomingPercentage(target,-20)
+		target.thtd_satori_01_debuff = false
 	end
 end

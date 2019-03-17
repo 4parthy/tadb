@@ -317,7 +317,7 @@ function OnSuika04LockToTarget(keys,caster,target)
 			end
 			if GetDistanceBetweenTwoVec2D(caster:GetOrigin(), target:GetOrigin()) > 800 then
 				local forward = (target:GetOrigin() - caster:GetAbsOrigin()):Normalized()
-				target:SetOrigin(caster:GetOrigin()+forward*800)
+				target:SetAbsOrigin(caster:GetOrigin()+forward*800)
 				local damage = originalCaster:THTD_GetPower() * originalCaster:THTD_GetStar() * suika_damage_increase[originalCaster.thtd_suika_01_scale]
 				local DamageTable = {
 		   			ability = keys.ability,

@@ -92,6 +92,7 @@ local sakuya_02_black_list =
 	"thtd_keine_03",
 	"thtd_suika_04",
 	"thtd_yuugi_03",
+	"thtd_alice_04",
 }
 
 function IsInSakuya02BlackList(ability)
@@ -137,8 +138,7 @@ end
 function OnSakuya03SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 
-	local duration = 2.0
-
+	local duration = 3.0
 	local pauseUnit = {}
 
 	local effectIndex = ParticleManager:CreateParticle("particles/heroes/muyue/ability_muyue_014_aeons.vpcf", PATTACH_CUSTOMORIGIN, caster)
@@ -173,8 +173,8 @@ function OnSakuya03SpellStart(keys)
 					if v~=nil and v:IsNull()==false and v:IsAlive() then
 	   					v:RemoveModifierByName("modifier_sakuya_03_time_pause_debuff")
 					end
-				end
-				ParticleManager:DestroyParticleSystem(effectIndex,false)
+				end				
+				ParticleManager:DestroyParticleSystem(effectIndex,true)
 				pauseUnit = {}
 				return
 			end

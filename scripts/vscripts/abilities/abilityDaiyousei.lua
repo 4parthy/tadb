@@ -1,5 +1,6 @@
 function OnDaiyousei01SpellStart(keys)
-	if SpawnSystem:GetWave() > 51 then return end
+	if SpawnSystem.IsUnLimited then return end
+	if GameRules:GetCustomGameDifficulty() == 10 then return end
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local target = keys.target
 	caster:EmitSound("Hero_Enchantress.EnchantCreep")
@@ -8,6 +9,7 @@ function OnDaiyousei01SpellStart(keys)
 		target:THTD_LevelUp(caster:THTD_GetStar())
 		target.thtd_exp = thtd_exp_table[target:THTD_GetLevel()-1]
 	end
+	
 	local count = caster:THTD_GetStar()
 	local targets = THTD_FindFriendlyUnitsInRadius(caster,target:GetOrigin(),1000)
 
@@ -88,18 +90,13 @@ function OnDaiyousei03SpellStart(keys)
 			if caster.ability_daiyousei_03_target ~= target then
 				if target~=nil and target:IsNull()==false and target:HasModifier("modifier_daiyousei_03") then
 					target:RemoveModifierByName("modifier_daiyousei_03")
-				end
-				if count > 10 then
-					caster:StopSound("Hero_Wisp.Tether.Target")
-				else
-					count = count + 1
-				end
+				end				
 				ParticleManager:DestroyParticleSystem(effectIndex,true)
 				return nil
 			end
-			return 0.1
+			return 0.2
 		end,
-	0.1)
+	0)
 
 	caster:SetContextThink("modifier_daiyousei_03_remove", 
 		function()
@@ -108,9 +105,9 @@ function OnDaiyousei03SpellStart(keys)
 				caster.ability_daiyousei_03_target = nil
 				return nil
 			end
-			return 0.1
+			return 0.2
 		end,
-	0.1)
+	0)
 end
 
 function Daiyousei03CreateLine(caster,target)
@@ -129,17 +126,22 @@ function OnDaiyousei04SpellStart(keys)
 	if target:GetUnitName() == "cirno" and target:THTD_GetStar() == 5 and caster.thtd_ability_daiyousei_04_lock == false then
 		target:EmitSound("Hero_Wisp.Tether")
 		caster.thtd_ability_daiyousei_04_lock = true
-		target:THTD_UpgradeEx()
-		target:SetBaseAttackTime(0.8)
+		target:THTD_UpgradeEx()		
 		target:SetAttackCapability(DOTA_UNIT_CAP_MELEE_ATTACK)
 		target:SetModel("models/new_touhou_model/cirno/ex/ex_cirno.vmdl")
 		target:SetOriginalModel("models/new_touhou_model/cirno/ex/ex_cirno.vmdl")
+		local modifier = target:AddNewModifier(target, nil, "modifier_attack_time", {})
+		modifier:SetStackCount(6)
 		local mana_regen_ability =target:FindAbilityByName("ability_common_mana_regen_buff")
-
 		if mana_regen_ability ~= nil then
 			if mana_regen_ability:GetLevel() < mana_regen_ability:GetMaxLevel() then
 				mana_regen_ability:SetLevel(5)
 			end
+		end
+
+		local ability = target:FindAbilityByName("thtd_cirno_01")
+		if ability ~= nil and target:HasModifier("modifier_cirno_suwako_aura") == false then
+			ability:ApplyDataDrivenModifier(target, target, "modifier_cirno_suwako_aura", nil)
 		end
 	end
 end
