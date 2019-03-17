@@ -73,3 +73,106 @@ Fixed Sanaes 4th ability combo unlock
  Changed ai for Sakuya's 2nd ability (ignore abilities with cd/mana of 1)
  Changed Lunasa's 2nd ability to unlock at 4 Stars instead 3
  
+Update: 17 Mar @ 10:20am
+Added Wave51
+Changed players castrange from 800 to 1000 for several abilities
+Removed items: 1007, 1015  
+Added second level cooldown for several items
+Added "shareability" to several item
+Added potraits for yukari, satori and aya
+Changed attack range from 800 to 100 for mugiyousei
+Changed model for shanghainingyou
+Changed mana regen to power buff for satori
+Changed mana regen for server towers
+Added Alice
+Added Kokoro
+Added Hina
+Disabled Moniriko to be used as material in "funny" difficulty
+Changed/Added difficulties
+Changed Card Drawing
+Changed Ayas abilities (debuff, targeting)
+Changed Byakurens abilities
+Changed Cirnos 2nd ability damage from 'Power * Stars 0.2' to 'Power * Stars 3' 
+Changed Cirnos 3rd ability damage from '1.5 * Power' to 'Stars * Power'
+Changed Cirnos 4th ability damage from '4 * Power' to 'Star * Power * 4'
+Changed Cirnos 4th ability to share aoe damgae by total/4 from total/5
+Changed Cirnos ExUp to apply attack time buff (6 stacks) instead of changing base attack time
+Changed Cirnos ExUp to apply suwako aura to Cirnos 1s ability 
+Changed Rumia ExUp to apply attack time buff (4 stacks) instead of changing base attack time
+Changed Flanderes 2nd ability damage from 'Power * Illusions/2' to 'Power * 2'
+Changed Flanderes 4th ability damage from 'Star * Power * 4' to 'Star * Power * 5 * 4' 
+Changed Hatates 2nd ability damage from 'Power * Star / 2.5' to 'Power * Star * 2'
+Changed Hecatia abilites (bugfixes, targeting)
+Changed Hecatia earth/moon damge from 'Power * Star * 0.5' to 'Power * Star' [ * 2 for moon/earht type ]
+Changed Hecatia triangle from 'Power * Star * 5' to Power * Star * 10'
+Changed Junkos 3rd ability damage from 'Power * Star * 2' to 'Power * Star 4' (additional 20% debuff stack)
+Added Junkos 4th ability (damage = Power * Star * 20)
+Changed Kaguyas 1st ability damage from 'Power * Star * 0.5' 'Power * Star * 2'
+Changed Kaguyas 4th ability damage from 'Power * Star / 16' to 'Power * Star'
+Changed Kanakos 1st ability damage from 'Power' to from 'Power * Star'
+Changed Kanakos 4th ability damage from 'Power * Star / 4' to 'Power * Star * 0.25'
+Changed Kanakos 3rd/4th ability damage multiplier from 'Faith / 1000' to 'Faith / 500'
+Changed Keines 1st abiility bonus damage timing
+Changed Kogasa 1st ability (apply Kogasa debuff)
+Changed Koishi 4th ability bonus attack damage to 'x / 0.7'
+Changed Lettys 1st ability damge from 'Power' to 'Power * Star'
+Changed Lunas abilities (bugifx, targeting)
+Changed Lunasa abilites (combo, damage, targeting, bugfix)
+Changed Lyrica abilites (combo, damage, targeting, bugfix)
+Changed Marisa abilites (bugfixes, targeting)
+Changed Medicine 2nd ability damage from 'Power * Star / 4' to 'Power * Star * 1.25'
+Changed Meirins 1st ability added modifier
+Changed Merlin abilites (combo, damage, targeting, bugfix)
+Changed Minamitsu a4th ability damge from 'Power * Star * 6' to 'Power * Star * 10'
+Changed Nazrin 1st ability damage from 'Gold * Star * 0.08' to 'Gold * Star * 0.2'
+Changed Nue extra damage from 'extra * base' to '(extra + 1) * base'
+Changed Nue 1st ability damage to 1.5 times 
+Changed Pathoulie damage of all types (buff)
+Changed Reimus 4th ability damage from 'Power * Star / 5' to 'Power * Star * 5' [ * chance ]
+Changed Reisen 3rd ability damage from 'Power * 5' to 'Power * Star * 5' (reworked repel)
+Changed Remilia abilities (buff)
+Changed Rin damage (buff)
+Changed Rumia damage (buff)
+Changed Sanae 3rd ability damage from 'Faith / 250' to 'Faith / 100'
+Changed Seiga item drops
+Added additional abillites to Shinki
+Changed Star abilites
+Changed Sunny abilites (bugfix, targetting)
+
+TBD:
+scripts/vscripts/
+  abilities/:
+    abilitySuwako.lua
+    abilityTenshi.lua
+    abilityToramaru.lua
+    abilityUtsuho.lua
+    abilityYoshika.lua
+    abilityYoumu.lua
+    abilityYukari.lua
+    abilityYuugi.lua
+    abilityYuuka.lua
+    abilityYuyuko.lua
+  addon_game_mode.lua
+  ai/common.lua
+  common.lua
+  modifiers/:
+    modifier_bosses_alice.lua
+    modifier_bosses_kaguya.lua
+    modifier_bosses_keine.lua
+    modifier_bosses_marisa.lua
+    modifier_bosses_minoriko.lua
+    modifier_bosses_rumia.lua
+    modifier_item_2009_physical_penetration_effect.lua
+    modifier_item_2010_magical_penetration_effect.lua
+    modifier_item_2012_magical_damage_aura_effect.lua
+    modifier_item_2013_physical_damage_aura_effect.lua
+    modifiers/modifier_move_max_speed.lua
+  system/:
+    combo.lua
+    custom_event.lua
+    damage.lua
+    items.lua
+    spawner.lua
+    tower.lue
+  trigger/PassCorner.lua
+  util.lua
