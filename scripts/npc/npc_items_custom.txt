@@ -2553,7 +2553,7 @@
 		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange"					"100"
 		"ItemCost"							"10000"
-		"Model"								"models/items/courier/jin_yin_white_fox/jin_yin_white_fox.vmdl"
+		"Model"								"models/new_touhou_model/junko/item/item_junko.vmdl"
 		"ItemPurchasable"				    "0"
 		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
 		
@@ -2793,7 +2793,7 @@
 		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange"					"100"
 		"ItemCost"							"2000"
-		"Model"								"models/thd_hero/yoshika/yoshika.vmdl"
+		"Model"								"models/thd_hero/yoshika/item/item_yoshika.vmdl"
 		"ItemPurchasable"				    "0"
 		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
 		

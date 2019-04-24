@@ -1342,6 +1342,7 @@
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_PURE"
+		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_3"
 		"MaxLevel"				"5"
 		"AbilityCooldown"		"1"
 		"AbilityManaCost"		"10"
@@ -4501,7 +4502,7 @@
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
 		"MaxLevel"				"1"
-		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_2"
 		"AbilityCooldown"		"1.0"
 		"AbilityManaCost"		"20"
 		"AbilityCastRange"		"1000"
@@ -4553,7 +4554,7 @@
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
-		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_2"
+		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_1"
 		"AbilityCooldown"		"1.0"
 		"AbilityManaCost"		"0"
 		"AbilityCastRange"		"1000"
@@ -4584,7 +4585,7 @@
 		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
-		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_3"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_4"
 		"AbilityCooldown"		"10.0"
 		"AbilityManaCost"		"0"
 		"AbilityCastRange"		"99999"
@@ -4616,7 +4617,7 @@
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_PURE"
 		"MaxLevel"				"1"
-		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastAnimation"	"ACT_DOTA_CAST_ABILITY_4"
 		"AbilityCooldown"		"30.0"
 		"AbilityManaCost"		"0"
 
@@ -5593,6 +5594,25 @@
 		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"	"DAMAGE_TYPE_PHYSICAL"
 		"MaxLevel"				"1"
+
+		"Modifiers"
+		{
+			"modifier_aya03_think_interval"
+			{
+				"ThinkInterval"			"0.1"
+				"Passive"				"1"
+				"IsHidden"				"1"
+
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities/abilityAya.lua"
+						"Function"		"OnAya03WingsSpellThink"
+					}
+				}
+			}
+		}
 	}
 
 	"thtd_hatate_01"
@@ -8790,6 +8810,46 @@
 
 		"Modifiers"
 		{
+		}
+	}
+
+	"thtd_junko_04"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"touhoutd/thtd_junko_04"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_PURE"
+		"MaxLevel"				"1"
+		"AbilityCooldown"		"10"
+		"AbilityManaCost"		"0"
+		// Stats
+		// ----------------------------------------------------------------
+		"AbilityCastRange"		"1000"
+
+		"precache"
+		{
+			"particle"			"particles/heroes/thtd_junko/ability_junko_04.vpcf"
+			"particle"			"particles/heroes/thtd_junko/ability_junko_04_debuff.vpcf"
+		}
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityJunko.lua"
+				"Function"		"OnJunko04SpellStart"
+				"Target"		"POINT"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_junko_04_debuff"
+			{
+				"EffectName"			"particles/heroes/thtd_junko/ability_junko_04_debuff.vpcf"
+				"EffectAttachType"		"attach_hitloc"
+			}
 		}
 	}
 

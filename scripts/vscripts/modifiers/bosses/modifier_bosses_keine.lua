@@ -34,18 +34,25 @@ function public:OnCreated(kv)
 				if GameRules:IsGamePaused() then return 0.03 end
 				if caster==nil or caster:IsNull() or caster:IsAlive()==false then return nil end
 				if caster:GetHealth() < caster:GetMaxHealth()*0.7 then
+					local time = 5.0
 					caster:SetContextThink(DoUniqueString("thtd_bosses_keine_back_buff"), 
 						function()
 							if GameRules:IsGamePaused() then return 0.03 end
-							caster:SetHealth(caster:GetMaxHealth()*0.7)
-							local effectIndex = ParticleManager:CreateParticle("particles/bosses/thtd_keine/ability_bosses_keine.vpcf", PATTACH_CUSTOMORIGIN, caster)
-							ParticleManager:SetParticleControl(effectIndex, 0, caster:GetOrigin())
-							ParticleManager:SetParticleControl(effectIndex, 1, caster:GetOrigin())
-							ParticleManager:SetParticleControl(effectIndex, 2, caster:GetOrigin())
-							ParticleManager:DestroyParticleSystem(effectIndex,false)
-							return nil
+							if caster==nil or caster:IsNull() or caster:IsAlive()==false then return nil end
+							time = time - 0.1
+							if time>0 then
+								return 0.1
+							else
+								caster:SetMaxHealth(caster:GetMaxHealth()*0.7)
+								local effectIndex = ParticleManager:CreateParticle("particles/bosses/thtd_keine/ability_bosses_keine.vpcf", PATTACH_CUSTOMORIGIN, caster)
+								ParticleManager:SetParticleControl(effectIndex, 0, caster:GetOrigin())
+								ParticleManager:SetParticleControl(effectIndex, 1, caster:GetOrigin())
+								ParticleManager:SetParticleControl(effectIndex, 2, caster:GetOrigin())
+								ParticleManager:DestroyParticleSystem(effectIndex,false)
+								return nil
+							end
 						end,
-					5.0)
+					0.1)
 					return nil
 				end
 				return 0.1

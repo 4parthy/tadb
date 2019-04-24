@@ -31,6 +31,9 @@ function PassTheUnitDamageSystem(damage_table)
 
     if DamageTable.attacker == "junko" or DamageTable.attacker:HasModifier("modifier_junko_01") then
         DamageTable.damage_type = DAMAGE_TYPE_PURE 
+        if HasModifier("modifier_junko_04_debuff") then
+            DamageTable.damage = DamageTable.damage * 2
+        end
         return DamageTable
     end
 
@@ -106,6 +109,9 @@ end
 
 function ReturnAfterTaxDamage(DamageTable)
     if DamageTable.attacker == "junko" or DamageTable.attacker:HasModifier("modifier_junko_01") then
+        if HasModifier("modifier_junko_04_debuff") then
+            DamageTable.damage = DamageTable.damage * 2
+        end
         return DamageTable.damage
     end
 
@@ -166,6 +172,10 @@ function ReturnAfterTaxDamage(DamageTable)
 
     if DamageTable.damage_type == DAMAGE_TYPE_PHYSICAL then
         local armor = target:GetPhysicalArmorValue()
+        
+        if armor > 200 then
+            armor = 200
+        end
 
         if unit:HasModifier("modifier_utsuho_rin_buff") then
             DamageTable.damage = DamageTable.damage * 1.2
@@ -184,7 +194,7 @@ function ReturnAfterTaxDamage(DamageTable)
         end
         
         if armor >= 0 then
-            DamageTable.damage = DamageTable.damage / ((1 - (armor * 0.05) /(1 + armor * 0.05)))
+            DamageTable.damage = DamageTable.damage / (1 - (0.052 * armor) / (0.9 + 0.048 * armor))
             if unit.equip_bonus_table ~= nil then
                 armor = armor * (1 - unit.equip_bonus_table["physical_penetration_percentage"]/100)
             end

@@ -122,3 +122,7 @@ OVERHEAD_ALERT_XP = 3
 本体会不停的变换形态，变换到该形态球体击中目标释放技能会产生一个三角，形成三个三角时，会链接三个三角，并用激光对周围单位进行扫射
 
 - 削弱纯狐的纯化，削弱赫卡的吸引
+
+../dota_addons/harvest_moon/
+
+../dota_addons/thd_test

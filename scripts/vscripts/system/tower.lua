@@ -1205,7 +1205,7 @@ thtd_ability_table =
 	["lunasa"] = {
 		[1] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
 		[2] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
-		[3] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 0},
+		[3] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
 		[4] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
 		[5] = {["thtd_lunasa_01"] = 1,["thtd_lunasa_02"] = 1},
 	},
@@ -1599,7 +1599,7 @@ thtd_ability_table =
 	["luna"] = {
 		[1] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0},
 		[2] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0},
-		[3] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
+		[3] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 0},
 		[4] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
 		[5] = {["thtd_luna_01"] = 1,["thtd_luna_02"] = 1},
 	},

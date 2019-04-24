@@ -259,7 +259,7 @@ function CDOTA_BaseNPC:THTD_reisen_thtd_ai()
 
 	local target = self:GetAttackTarget()
 	if target == nil or target:IsNull() == true or target.thtd_is_feared_by_reisen_01 == true then
-		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange(),
+		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange(),
 			function(targetunit) return targetunit.thtd_is_feared_by_reisen_01~=true end)
 		if target~=nil and target:IsNull()==false then 
 			THTDSystem:ChangeAttackTarget(self, target) 
@@ -267,7 +267,7 @@ function CDOTA_BaseNPC:THTD_reisen_thtd_ai()
 	end
 
 	if self:IsReadyToCastAbility(ability) then
-		local unit = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange()-250,
+		local unit = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange()-250,
 			function(targetunit) return targetunit.thtd_is_feared_by_reisen_01~=true end)
 		if unit~=nil and unit:IsNull()==false then
 			self:CastAbilityOnTarget(unit, ability, self:GetPlayerOwnerID())
@@ -473,8 +473,8 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_flandre_01")
 	local ability4 = self:FindAbilityByName("thtd_flandre_04")
 
-	if self.thtd_attatck_target==nil or self.thtd_attatck_target:IsNull() or GetDistance(self, self.thtd_attatck_target)>self:GetAttackRange() then
-		local target = THTDSystem:FindRadiusWeakOneUnit(self,self:GetAttackRange())
+	if self.thtd_attatck_target==nil or self.thtd_attatck_target:IsNull() or GetDistance(self, self.thtd_attatck_target)>self:GetBaseAttackRange() then
+		local target = THTDSystem:FindRadiusWeakOneUnit(self,self:GetBaseAttackRange())
 		if target~=nil and target:IsNull()==false and target:IsAlive() then
 			self.thtd_attatck_target = target
 			THTDSystem:ChangeAttackTarget(self, target)
@@ -482,7 +482,7 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	end
 
 	if self:IsReadyToCastAbility(ability1) then
-		local range = self:GetAttackRange()
+		local range = self:GetBaseAttackRange()
 		if ability4:GetLevel()>0 then range = ability4:GetCastRange() end
 		if THTDSystem:FindRadiusUnitCount(self, range)>0 then
 			self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
@@ -574,7 +574,7 @@ function CDOTA_BaseNPC:THTD_koishi_thtd_ai()
 	local ability3 = self:FindAbilityByName("thtd_koishi_03")
 	local ability4 = self:FindAbilityByName("thtd_koishi_04")
 
-	if self:IsReadyToCastAbility(ability3) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability3) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self, ability3:GetCastRange())
 		if target~=nil and target:IsNull()==false and target:THTD_IsTower() and target.thtd_koishi_03_bonus~=true then
 			self:CastAbilityOnTarget(target, ability3, self:GetPlayerOwnerID())
@@ -582,7 +582,7 @@ function CDOTA_BaseNPC:THTD_koishi_thtd_ai()
 		end
 	end
 
-	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
 		return
 	end
@@ -678,7 +678,7 @@ function CDOTA_BaseNPC:THTD_ran_thtd_ai()
 	local ability1 = self:FindAbilityByName("thtd_ran_01")
 	local ability2 = self:FindAbilityByName("thtd_ran_02")
 
-	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability2, self:GetPlayerOwnerID())
 		-- ability2:CastAbility()
 		return
@@ -746,7 +746,7 @@ end
 function CDOTA_BaseNPC:THTD_mokou_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_mokou_03")
 
-	if self:IsReadyToCastAbility(ability) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability, self:GetPlayerOwnerID())
 		return
 	end
@@ -819,7 +819,7 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_ai()
 	local ability3 = self:FindAbilityByName("thtd_sanae_03")
 	local ability4 = self:FindAbilityByName("thtd_sanae_04")
 
-	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil and self:HasModifier("modifier_sanae_04_buff")==false then
+	if self:IsReadyToCastAbility(ability4) and THTDSystem:FindRadiusOneUnit(self, self:GetBaseAttackRange())~=nil and self:HasModifier("modifier_sanae_04_buff")==false then
 		self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
 		return
 	end
@@ -832,7 +832,7 @@ function CDOTA_BaseNPC:THTD_sanae_thtd_ai()
 		end
 	end
 
-	if self:IsReadyToCastAbility(ability1) and THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())~=nil then
+	if self:IsReadyToCastAbility(ability1) and THTDSystem:FindRadiusOneUnit(self, self:GetBaseAttackRange())~=nil then
 		local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self, 800)
 		if target~=nil and target:IsNull()==false and target:THTD_IsTower() and target.thtd_sanae_01_bonus~=true then
 			self:CastAbilityOnTarget(target, ability1, self:GetPlayerOwnerID())
@@ -886,7 +886,7 @@ end
 function CDOTA_BaseNPC:THTD_momiji_thtd_ai()
 	local ability = self:FindAbilityByName("thtd_momiji_01")
 
-	if self:IsReadyToCastAbility(ability) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability, self:GetPlayerOwnerID())
 		return
 	end
@@ -901,7 +901,7 @@ function CDOTA_BaseNPC:THTD_minamitsu_thtd_ai()
 	local ability3 = self:FindAbilityByName("thtd_minamitsu_03")
 	local ability4 = self:FindAbilityByName("thtd_minamitsu_04")
 
-	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability2, self:GetPlayerOwnerID())
 		return
 	end
@@ -916,7 +916,7 @@ function CDOTA_BaseNPC:THTD_minamitsu_thtd_ai()
 	end
 
 	if self:IsReadyToCastAbility(ability4) then
-		local unit = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange(),
+		local unit = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange(),
 			function(targetunit) return targetunit:HasModifier("modifier_minamitsu_01_slow_buff") end)
 		if unit~=nil and unit:IsNull()==false then
 			self:CastAbilityNoTarget(ability4, self:GetPlayerOwnerID())
@@ -934,7 +934,7 @@ function CDOTA_BaseNPC:THTD_nue_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_nue_02")
 
 	if self:IsReadyToCastAbility(ability1) and ability2:IsInAbilityPhase() == false then
-		local range = self:GetAttackRange()
+		local range = self:GetBaseAttackRange()
 		if ability2:GetLevel()>0 then range = ability2:GetCastRange() end
 		if THTDSystem:FindRadiusUnitCount(self, range)>0 then
 			self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
@@ -1061,7 +1061,7 @@ function CDOTA_BaseNPC:THTD_yoshika_thtd_ai()
 
 	local target = self:GetAttackTarget()
 	if target==nil or target:IsNull() or target:HasModifier("modifier_yoshika_01_slow") then
-		target = THTDSystem:FindRadiusOneUnitHasNoModifier(self, self:GetAttackRange(), "modifier_yoshika_01_slow")
+		target = THTDSystem:FindRadiusOneUnitHasNoModifier(self, self:GetBaseAttackRange(), "modifier_yoshika_01_slow")
 		if target~=nil and target:IsNull()==false then 
 			THTDSystem:ChangeAttackTarget(self,target) 
 		end
@@ -1080,7 +1080,7 @@ end
 function CDOTA_BaseNPC:THTD_seiga_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_seiga_02")
 
-	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self,ability2:GetCastRange())
 		if target~=nil and target:IsNull()==false and target:THTD_IsTower() then
 			self:CastAbilityOnTarget(target,ability2,self:GetPlayerOwnerID())
@@ -1100,14 +1100,14 @@ function CDOTA_BaseNPC:THTD_keine_thtd_ai()
 
 	local target = self:GetAttackTarget()
 	if target==nil or target:IsNull() or target:HasModifier("thtd_keine_03_debuff") then
-		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange(), 
+		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange(), 
 			function (targetunit) return targetunit:HasModifier("thtd_keine_03_debuff")==false end)
 		if target~=nil and target:IsNull()==false then
 			THTDSystem:ChangeAttackTarget(self, target)
 		end
 	end
 
-	if self:IsReadyToCastAbility(ability1) and self.thtd_keine_change~=2 and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability1) and self.thtd_keine_change~=2 and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		local target1 = THTDSystem:FindFriendlyRadiusOneUnitLast(self,ability1:GetCastRange())
 		if target1~=nil and target1:IsNull()==false and target1:THTD_IsTower() and target1.thtd_keine_01_open~=true then
 			self:CastAbilityOnTarget(target1,ability1,self:GetPlayerOwnerID())
@@ -1124,7 +1124,7 @@ function CDOTA_BaseNPC:THTD_keine_thtd_ai()
 	end 
 
 	if self:IsReadyToCastAbility(ability2) then
-		local unit = THTDSystem:FindRadiusOneUnit(self, self:GetAttackRange())
+		local unit = THTDSystem:FindRadiusOneUnit(self, self:GetBaseAttackRange())
 		if (self.thtd_keine_change == 1 and ability1:GetCooldownTimeRemaining() > 5 and unit ~= nil) or 
 			(self.thtd_keine_change == 2 and (ability1:IsCooldownReady() or unit == nil) ) 
 		then
@@ -1143,7 +1143,7 @@ function CDOTA_BaseNPC:THTD_medicine_thtd_ai()
 
 	local target = self:GetAttackTarget()
 	if target==nil or target:IsNull() or target:HasModifier("modifier_medicine_01_slow") then
-		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange(), 
+		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange(), 
 			function (targetunit) return targetunit:HasModifier("modifier_medicine_01_slow")==false end)
 		if target~=nil and target:IsNull()==false then
 			THTDSystem:ChangeAttackTarget(self, target)
@@ -1268,13 +1268,13 @@ function CDOTA_BaseNPC:THTD_yuugi_thtd_ai()
 
 	local target = self:GetAttackTarget()
 	if target == nil or target:IsNull() == true then
-		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange())
+		target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange())
 		if target~=nil and target:IsNull()==false then 
 			THTDSystem:ChangeAttackTarget(self, target) 
 		end
 	end
 
-	if self:IsReadyToCastAbility(ability1) and THTDSystem:FindRadiusUnitCount(self, self:GetAttackRange())>0 then
+	if self:IsReadyToCastAbility(ability1) and THTDSystem:FindRadiusUnitCount(self, self:GetBaseAttackRange())>0 then
 		self:CastAbilityNoTarget(ability1, self:GetPlayerOwnerID())
 		return
 	end
@@ -1302,10 +1302,19 @@ end
 function CDOTA_BaseNPC:THTD_junko_thtd_ai()
 	local ability2 = self:FindAbilityByName("thtd_junko_02")
 	local ability3 = self:FindAbilityByName("thtd_junko_03")
+	local ability4 = self:FindAbilityByName("thtd_junko_04")
 
 	if self:IsReadyToCastAbility(ability2) and THTDSystem:FindRadiusUnitCount(self, 1000)>=3 then
 		self:CastAbilityNoTarget(ability2, self:GetPlayerOwnerID())
 		return
+	end
+	
+	if self:IsReadyToCastAbility(ability4) then
+		local point,count = THTDSystem:FindRadiusOnePointPerfectAOE(self, ability4:GetCastRange(), 500)
+		if point~=nil and count>=3 then
+			self:CastAbilityOnPosition(point, ability4, self:GetPlayerOwnerID())
+			return
+		end
 	end
 
 	if self:IsReadyToCastAbility(ability3) then
@@ -1651,7 +1660,7 @@ function THTDSystem:ChangeAttackTarget(entity, target)
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
 			if target==nil or target:IsNull() or target:IsAlive()==false or 
-				entity==nil or entity:IsNull() or entity:GetAttackTarget()==target or GetDistance(entity,target)>entity:GetAttackRange() then
+				entity==nil or entity:IsNull() or entity:GetAttackTarget()==target or GetDistance(entity,target)>entity:GetBaseAttackRange() then
 				entity.thtd_changing_attack_target = false
 				return nil
 			end
@@ -1670,7 +1679,7 @@ function CDOTA_BaseNPC:THTD_mugiyousei_thtd_ai()
 	end
 	local unit = target
 
-	local enemies = THTD_FindUnitsInRadius(self, self:GetAbsOrigin(), self:GetAttackRange())
+	local enemies = THTD_FindUnitsInRadius(self, self:GetAbsOrigin(), self:GetBaseAttackRange())
 	if #enemies > 0 then
 		for k,v in pairs(enemies) do
 			if v~=nil and v:IsNull()==false and v.thtd_poison_buff < min_thtd_poison_buff then
@@ -1692,7 +1701,7 @@ function CDOTA_BaseNPC:THTD_rumia_thtd_ai()
 	if self.thtd_is_ex == true then
 		local target = self:GetAttackTarget()
 		if target==nil or target:IsNull()==true or target:GetHealthPercent()<=70 then
-			target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetAttackRange(), 
+			target = THTDSystem:FindRadiousMostDangerousUnit(self, self:GetBaseAttackRange(), 
 				function (targetunit) return targetunit:GetHealthPercent() > 70 end)
 			if target~=nil and target:IsNull()==false then
 				THTDSystem:ChangeAttackTarget(self, target)
